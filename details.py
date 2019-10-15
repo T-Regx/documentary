@@ -10,7 +10,7 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
             with open(definitions) as definitions_file:
                 params = __polyfill_params(__inherit(json.load(declaration_file)))
                 links = __decorations_move_manual_to_link(__decorations_process_groups(json.load(decorations_file)))
-                summaries = __inherit(json.load(definitions_file))
+                summaries = __put_name(__inherit(json.load(definitions_file)))
                 return __merge_dictionaries([params, links, summaries], False)
 
 
@@ -56,4 +56,10 @@ def __process_groups(methods: dict, groups: list) -> dict:
         for method, decoration in methods.items():
             if method in group:
                 decoration['see'].extend([x for x in group if x != method])
+    return methods
+
+
+def __put_name(methods: dict) -> dict:
+    for name, detail in methods.items():
+        detail['name'] = name
     return methods

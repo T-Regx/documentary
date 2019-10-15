@@ -1,8 +1,9 @@
 import json
 
 
-def print_method(details: dict, format_method, indent: int) -> str:
+def print_method(details: dict, format_method, include_template_tag: bool, indent: int) -> str:
     return __format_comment([
+        *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
         '',
         *__suffix_new_line(_format_params(details['param'])),
