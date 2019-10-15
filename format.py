@@ -1,12 +1,16 @@
 import json
 
 
-def print_method(details: dict, format_method, include_template_tag: bool, indent: int) -> str:
+def print_method(details: dict,
+                 format_method: callable,
+                 param_mapper: callable,
+                 include_template_tag: bool,
+                 indent: int) -> str:
     return __format_comment([
         *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
         '',
-        *__suffix_new_line(_format_params(details['param'])),
+        *__suffix_new_line(_format_params(details['param'], param_mapper)),
         *_format_return(details['return'], details['return-type']),
         *(['', *_format_throws()] if details.get('throws', True) else []),
         '',
@@ -15,8 +19,8 @@ def print_method(details: dict, format_method, include_template_tag: bool, inden
     ], indent)
 
 
-def _format_params(params: dict):
-    return ["@param " + _format_param(name, d) for name, d in params.items()]
+def _format_params(params: dict, param_summary: callable):
+    return ["@param " + _format_param(name, d, param_summary) for name, d in params.items()]
 
 
 def __join_array(param) -> str:
@@ -27,9 +31,9 @@ def __join_array(param) -> str:
     raise Exception("Invalid param type")
 
 
-def _format_param(name: str, param):
+def _format_param(name: str, param, param_summary: callable):
     d = __unravel_param(name, param)
-    return __format_param_signature(name, d)
+    return __format_param_signature(name, d) + " " + param_summary(name)
 
 
 def __format_param_signature(name, d):

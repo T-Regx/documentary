@@ -10,7 +10,8 @@ def main() -> None:
         declaration='resources/src/preg.declaration.json',
         decorations='resources/src/preg.decorations.json',
         definitions='resources/src/preg.definitions.json',
-        include_template_tag=True
+        fragments='resources/src/fragments/',
+        include_template_tag=True,
     )
 
     print("Documented file {}".format(filename))

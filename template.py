@@ -1,7 +1,7 @@
 import re
 
 from details import load_details
-from files import map_file
+from files import map_file, fragment
 from format import print_method, format_preg_method
 
 
@@ -10,21 +10,27 @@ def document_file(template: str,
                   declaration: str,
                   decorations: str,
                   definitions: str,
+                  fragments: str,
                   include_template_tag: bool) -> None:
-    printer = Printer(load_details(declaration, decorations, definitions))
+    printer = Printer(
+        load_details(declaration, decorations, definitions),
+        lambda method, param: fragment(fragments, 'param.' + param + '.' + method),
+    )
     map_file(template,
              output,
              lambda content: put_into_template(content, lambda m, i: printer.print(m, include_template_tag, i)))
 
 
 class Printer:
-    def __init__(self, methods):
+    def __init__(self, methods, param_mapper: callable):
         self.method_details = methods
+        self.param_mapper = param_mapper
 
     def print(self, method_name: str, template_tag: bool, indent: int):
         return print_method(
             self.method_details[method_name],
             lambda x: format_preg_method(x) if x in self.method_details else x,
+            lambda param: self.param_mapper(method_name, param),
             template_tag,
             indent)
 
