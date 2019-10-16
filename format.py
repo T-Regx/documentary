@@ -10,7 +10,7 @@ def print_method(details: dict,
         *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
         '',
-        *__suffix_new_line(_format_params(details['param'], param_mapper)),
+        *__suffix_new_line(_flat_map_new_lines(_format_params(details['param'], param_mapper))),
         *_format_return(details['return'], details['return-type']),
         *(['', *_format_throws()] if details.get('throws', True) else []),
         '',
@@ -19,8 +19,12 @@ def print_method(details: dict,
     ], indent)
 
 
+def _flat_map_new_lines(strings) -> list:
+    return [y for x in strings for y in x]
+
+
 def _format_params(params: dict, param_summary: callable):
-    return ["@param " + _format_param(name, d, param_summary) for name, d in params.items()]
+    return [_format_param(name, d, param_summary) for name, d in params.items()]
 
 
 def __join_array(param) -> str:
@@ -33,14 +37,14 @@ def __join_array(param) -> str:
 
 def _format_param(name: str, param, param_summary: callable):
     d = __unravel_param(name, param)
-    return __format_param_signature(name, d) + " " + param_summary(name)
+    return [__format_param_signature(name, d) + " ", *(param_summary(name).splitlines())]
 
 
 def __format_param_signature(name, d):
     param_type = __join_array(d['type'])
     ref = "&" if d['ref'] else ""
     optional = " [optional]" if d['optional'] else ""
-    return ref + param_type + ' $' + name + optional
+    return "@param " + ref + param_type + ' $' + name + optional + " "
 
 
 def __unravel_param(name: str, param) -> dict:

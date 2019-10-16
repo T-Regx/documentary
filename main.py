@@ -1,13 +1,11 @@
 from os import path
 
 from args import parse_args
-from files import file_directory
 from template import document_file
 
 
 def document(filename: str):
-    basename = path.basename(filename)
-    d = file_directory(filename)
+    d, basename = path.split(filename)
 
     document_file(
         template=filename,
