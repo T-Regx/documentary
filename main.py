@@ -4,7 +4,7 @@ from args import parse_args
 from template import document_file
 
 
-def document(filename: str):
+def document(filename: str) -> None:
     d, basename = path.split(filename)
 
     document_file(
