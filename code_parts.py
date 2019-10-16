@@ -7,4 +7,4 @@ def replace_code_parts(string: str, is_param: callable):
         tag = 'i' if is_param(value) else 'b'
         return "<%s>%s</%s>" % (tag, value, tag)
 
-    return re.sub(r"`([^`\s]{1,25})`", repl, string)
+    return re.sub(r"`([^`\s]{1,38})`", repl, string)
