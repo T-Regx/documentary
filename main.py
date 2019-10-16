@@ -1,10 +1,9 @@
-import template
+from args import parse_args
+from template import document_file
 
 
-def main() -> None:
-    filename = 'resources/src/preg.php'
-
-    template.document_file(
+def document(filename: str):
+    document_file(
         template=filename,
         output=filename,
         declaration='resources/src/preg.declaration.json',
@@ -13,9 +12,10 @@ def main() -> None:
         fragments='resources/src/fragments/',
         include_template_tag=True,
     )
-
     print("Documented file {}".format(filename))
 
 
 if __name__ == '__main__':
-    main()
+    args = parse_args()
+
+    document(args.template)
