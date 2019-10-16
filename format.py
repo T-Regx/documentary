@@ -1,5 +1,3 @@
-import json
-
 from code_parts import replace_code_parts
 
 
@@ -38,8 +36,7 @@ def __join_array(param) -> str:
 
 
 def _format_param(name: str, param, param_summary: callable):
-    d = __unravel_param(name, param)
-    return [__format_param_signature(name, d) + " ", *(param_summary(name).splitlines())]
+    return [__format_param_signature(name, param) + " ", *(param_summary(name).splitlines())]
 
 
 def __format_param_signature(name, d):
@@ -47,49 +44,6 @@ def __format_param_signature(name, d):
     ref = "&" if d['ref'] else ""
     optional = " [optional]" if d['optional'] else ""
     return "@param " + ref + param_type + ' $' + name + optional + " "
-
-
-def __unravel_param(name: str, param) -> dict:
-    if type(param) is dict:
-        return {"type": param['type'],
-                "optional": param.get('optional', False),
-                "ref": param.get('ref', False),
-                "flags": param.get('flags', [])}
-    if type(param) is str:
-        return {"type": param,
-                "optional": False,
-                "ref": False,
-                "flags": []}
-    if type(param) is list:
-        d = {"optional": False, "ref": False, "flags": []}
-        if "optional" in param:
-            d['optional'] = True
-            param.remove('optional')
-        if "&ref" in param:
-            d['ref'] = True
-            param.remove('&ref')
-        if name == 'flags' and not _any_types(param):
-            d['type'] = 'int'
-            d['optional'] = True
-            d['flags'] = param
-            return d
-        if len(param) == 1:
-            d['type'] = param[0]
-            return d
-        if _only_types(param):
-            d['type'] = param
-            return d
-    raise Exception("unexpected param type %s: %s" % (name, json.dumps(param)))
-
-
-def _only_types(param: dict) -> bool:
-    valid_types = ['string', 'string[]', 'int', 'array[]']
-    return not any(item for item in param if item not in valid_types)
-
-
-def _any_types(param: dict) -> bool:
-    valid_types = ['string', 'string[]', 'int', 'array[]']
-    return any(item for item in param if item in valid_types)
 
 
 def __suffix_new_line(parameters_: list) -> list:
