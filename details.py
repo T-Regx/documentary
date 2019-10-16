@@ -1,4 +1,5 @@
 import json
+import re
 
 from merge_utils import __merge_dictionaries
 from utils import first
@@ -10,7 +11,7 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
             with open(definitions) as definitions_file:
                 params = __polyfill_params(__unravel_params(__inherit(json.load(declaration_file))))
                 links = __decorations_move_manual_to_link(__decorations_process_groups(json.load(decorations_file)))
-                summaries = __put_name(__inherit(json.load(definitions_file)))
+                summaries = __populate_consts(__put_name(__inherit(json.load(definitions_file))))
                 return __merge_dictionaries([params, links, summaries], False)
 
 
@@ -70,6 +71,16 @@ def __unravel_params(methods: dict) -> dict:
         if 'param' in method:
             for name, param in method['param'].items():
                 method['param'][name] = __unravel_param(name, param)
+    return methods
+
+
+def __populate_consts(methods: dict) -> dict:
+    for method in methods.values():
+        if 'const' in method:
+            if 'return' not in method or type(method['return']) is not dict:
+                raise Exception("Invalid usage of key 'const'")
+            for case in method['return'].values():
+                case['return'] = re.sub(':([a-z]+)', lambda match: method['const'][match[1]], case['return'])
     return methods
 
 
