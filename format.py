@@ -1,12 +1,14 @@
 import json
 
+from code_parts import replace_code_parts
+
 
 def print_method(details: dict,
                  format_method: callable,
                  param_mapper: callable,
                  include_template_tag: bool,
                  indent: int) -> str:
-    return __format_comment([
+    return replace_code_parts(__format_comment([
         *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
         '',
@@ -16,7 +18,7 @@ def print_method(details: dict,
         '',
         *('@see ' + format_method(see) for see in details['see']),
         *('@link ' + format_method(see) for see in details['link']),
-    ], indent)
+    ], indent), lambda x: x in details['param'].keys())
 
 
 def _flat_map_new_lines(strings) -> list:
