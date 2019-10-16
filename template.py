@@ -14,7 +14,7 @@ def document_file(template: str,
                   include_template_tag: bool) -> None:
     printer = Printer(
         load_details(declaration, decorations, definitions),
-        lambda method, param: fragment(fragments, 'param.' + param + '.' + method),
+        lambda method, param: fragment(fragments, method + '.param.' + param, 'param.' + param),
     )
     map_file(template,
              output,
