@@ -17,24 +17,28 @@ import collections
 import json
 
 
-def dict_merge(dictionary: dict, copy_from: dict, allow_override: bool = True) -> dict:
-    for k, v in copy_from.items():
-        if (k in dictionary and isinstance(dictionary[k], dict)
-                and isinstance(copy_from[k], collections.Mapping)):
-            dict_merge(dictionary[k], copy_from[k])
-        else:
-            if not allow_override and k in dictionary:
-                raise Exception("key '%s' duplicated in both dictionaries (%s, %s)" %
-                                (k, json.dumps(dictionary), json.dumps(copy_from)))
-            dictionary[k] = copy_from[k]
-
-
-def __merge_dictionaries(dictionaries: list, allow_override: bool = True) -> dict:
+def merge_dictionaries(dictionaries: list, allow_override: bool = True) -> dict:
     if len(dictionaries) == 0:
         return {}
     if len(dictionaries) == 1:
         return dictionaries[0]
     base = dictionaries.pop(0).copy()
     for dictionary in dictionaries:
-        dict_merge(base, dictionary, allow_override)
+        __dict_merge(base, dictionary, allow_override)
     return base
+
+
+def __dict_merge(dictionary: dict, copy_from: dict, allow_override: bool = True) -> None:
+    for k, v in copy_from.items():
+        if (k in dictionary and isinstance(dictionary[k], dict)
+                and isinstance(copy_from[k], collections.Mapping)):
+            __dict_merge(dictionary[k], copy_from[k])
+        else:
+            if not allow_override and k in dictionary:
+                raise DuplicateKeysException("key '%s' duplicated in both dictionaries (%s, %s)" %
+                                             (k, json.dumps(dictionary), json.dumps(copy_from)))
+            dictionary[k] = copy_from[k]
+
+
+class DuplicateKeysException(Exception):
+    pass

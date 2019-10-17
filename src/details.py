@@ -1,7 +1,7 @@
 import json
 import re
 
-from src.merge_utils import __merge_dictionaries
+from src.merge_utils import merge_dictionaries
 from src.utils import first
 
 
@@ -12,7 +12,7 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
                 params = __polyfill_params(__unravel_params(__inherit(json.load(declaration_file))))
                 links = __decorations_move_manual_to_link(__decorations_process_groups(json.load(decorations_file)))
                 summaries = __populate_consts(__put_name(__inherit(json.load(definitions_file))))
-                return __merge_dictionaries([params, links, summaries], False)
+                return merge_dictionaries([params, links, summaries], False)
 
 
 def __polyfill_params(declaration: dict) -> dict:
