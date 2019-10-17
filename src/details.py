@@ -15,10 +15,11 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
                     json.load(decorations_file))
 
 
-def build_details(summaries: dict, params: dict, links: dict) -> dict:
-    summaries = __populate_consts(__put_name(__inherit(summaries)))
-    params = __polyfill_params(__unravel_params(__inherit(params)))
-    links = __decorations_move_manual_to_link(__decorations_process_groups(links))
+def build_details(summaries: dict = None, params: dict = None, links: dict = None) -> dict:
+    summaries = __populate_consts(__put_name(__inherit(summaries if summaries else {})))
+    params = __polyfill_params(__unravel_params(__inherit(params if params else {})))
+    links = __decorations_move_manual_to_link(
+        __decorations_process_groups(__decorations_append_global_decorations(links if links else {})))
 
     return merge_dictionaries([params, links, summaries], False)
 
@@ -30,6 +31,16 @@ def __polyfill_params(declaration: dict) -> dict:
     return declaration
 
 
+def __decorations_append_global_decorations(decoration: dict) -> dict:
+    if '*' in decoration:
+        asterisk = decoration['*']
+        for method in decoration['methods'].values():
+            method['see'].extend(asterisk['see'])
+            method['link'].extend(asterisk['link'])
+
+    return decoration
+
+
 def __decorations_move_manual_to_link(declaration: dict) -> dict:
     for method in declaration.values():
         if "manual" in method:
@@ -38,8 +49,6 @@ def __decorations_move_manual_to_link(declaration: dict) -> dict:
             if method['manual']['t-regx']:
                 method['link'].append(method['manual']['t-regx'])
             del method['manual']
-        method['see'].append('pattern()')
-        method['see'].append('Pattern::of()')
     return declaration
 
 
@@ -54,7 +63,7 @@ def __inherit(declarations: dict) -> dict:
 
 
 def __decorations_process_groups(decorations: dict) -> dict:
-    return __process_groups(decorations['methods'].copy(), decorations['groups'])
+    return __process_groups(decorations.get('methods', {}).copy(), decorations.get('groups', {}))
 
 
 def __process_groups(methods: dict, groups: list) -> dict:
@@ -94,42 +103,73 @@ def __populate_consts(methods: dict) -> dict:
 
 def __unravel_param(name: str, param) -> dict:
     if type(param) is dict:
-        return {"type": param['type'],
-                "optional": param.get('optional', False),
-                "ref": param.get('ref', False),
-                "flags": param.get('flags', [])}
+        return __unravel_param_dict(name, param)
     if type(param) is str:
-        return {"type": param,
-                "optional": False,
-                "ref": False,
-                "flags": []}
+        return __param(_type=param)
     if type(param) is list:
-        d = {"optional": False, "ref": False, "flags": []}
-        if "optional" in param:
-            d['optional'] = True
-            param.remove('optional')
-        if "&ref" in param:
-            d['ref'] = True
-            param.remove('&ref')
-        if name == 'flags' and not _any_types(param):
-            d['type'] = 'int'
-            d['optional'] = True
-            d['flags'] = param
-            return d
-        if len(param) == 1:
-            d['type'] = param[0]
-            return d
-        if _only_types(param):
-            d['type'] = param
-            return d
-    raise Exception("unexpected param type %s: %s" % (name, json.dumps(param)))
+        return __unravel_param_list(name, param)
+    raise ParameterTypeException("unexpected param type %s" % type(name))
 
 
-def _only_types(param: dict) -> bool:
-    valid_types = ['string', 'string[]', 'int', 'array[]']
-    return not any(item for item in param if item not in valid_types)
+def __unravel_param_dict(name: str, param):
+    if 'flags' in param and param['flags'] is not None:
+        if 'type' in param or 'optional' in param or 'ref' in param:
+            raise ParameterTypeException("Possibly conflicted `flags` declaration in parameter '%s'" % name)
+        if any(item for item in param['flags'] if not __is_valid_flag(item)):
+            raise ParameterTypeException('Malformed flag')
+        return __param('int', optional=True, ref=True, flags=param['flags'])
+    if 'type' not in param:
+        raise ParameterTypeException('No type parameter')
+    if not __is_valid_type(param['type']):
+        raise ParameterTypeException('Invalid parameter type value: %s' % param['type'])
+    return __param(_type=param['type'],
+                   optional=param.get('optional', False),
+                   ref=param.get('ref', False),
+                   flags=param.get('flags', None))
 
 
-def _any_types(param: dict) -> bool:
-    valid_types = ['string', 'string[]', 'int', 'array[]']
-    return any(item for item in param if item in valid_types)
+def __unravel_param_list(name: str, param: list) -> dict:
+    d = {"optional": False, "ref": False, "flags": None}
+    if "optional" in param:
+        d['optional'] = True
+        param.remove('optional')
+    if "&ref" in param:
+        d['ref'] = True
+        param.remove('&ref')
+    if name == 'flags' and not _any_types(param):
+        if len(param) == 0:
+            raise ParameterTypeException('Parameter `flags` is empty')
+        d['type'] = 'int'
+        d['optional'] = True
+        d['flags'] = param
+        return d
+    if len(param) == 0:
+        raise ParameterTypeException('No type parameter')
+    if _only_types(param):
+        d['type'] = param[0] if len(param) == 1 else param
+        return d
+    raise ParameterTypeException("unexpected param type %s: %s" % (name, json.dumps(param)))
+
+
+def __param(_type: str, optional: bool = False, ref: bool = False, flags: list = None):
+    return {'type': _type, 'optional': optional, 'ref': ref, 'flags': flags}
+
+
+def _only_types(param: list) -> bool:
+    return not any(item for item in param if not __is_valid_type(item))
+
+
+def _any_types(param: list) -> bool:
+    return any(item for item in param if __is_valid_type(item))
+
+
+def __is_valid_type(param_type: str) -> bool:
+    return param_type in ['string', 'string[]', 'int', 'array', 'array[]']
+
+
+def __is_valid_flag(flag: str) -> bool:
+    return bool(re.match(r"^[A-Z]+(_[A-Z]+){0,4}$", flag))
+
+
+class ParameterTypeException(Exception):
+    pass

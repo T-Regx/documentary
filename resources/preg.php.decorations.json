@@ -131,5 +131,14 @@
       "last_error_constant",
       "error_constant"
     ]
-  ]
+  ],
+  "*": {
+    "see": [
+      "pattern()",
+      "Pattern::of()"
+    ],
+    "link": [
+      "https://t-regx.com"
+    ]
+  }
 }
