@@ -9,13 +9,11 @@ def print_method(details: dict,
     return replace_code_parts(__format_comment([
         *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
-        '',
         *__suffix_new_line(_flat_map_new_lines(_format_params(details['param'], param_mapper))),
-        *_format_return(details['return'], details['return-type']),
-        *(['', *_format_throws()] if details.get('throws', True) else []),
-        '',
-        *('@see ' + format_method(see) for see in details['see']),
-        *('@link ' + format_method(see) for see in details['link']),
+        *__suffix_new_line(_format_return(details['return'], details['return-type'])),
+        *__suffix_new_line([*_format_throws()] if details.get('throws', True) else []),
+        *__suffix_new_line(['@see ' + format_method(see) for see in details['see']]),
+        *__suffix_new_line(['@link ' + format_method(see) for see in details['link']]),
     ], indent), lambda x: x in details['param'].keys())
 
 
@@ -27,6 +25,22 @@ def _format_params(params: dict, param_summary: callable):
     return [_format_param(name, d, param_summary) for name, d in params.items()]
 
 
+def _format_param(name: str, param, param_summary: callable):
+    summary_lines = param_summary(name).splitlines()
+    signature = __format_param_signature(name, param)
+    if len(summary_lines) == 0:
+        return [signature]
+    summary_lines[0] = signature + ' ' + summary_lines[0]
+    return summary_lines
+
+
+def __format_param_signature(name, d):
+    param_type = __join_array(d['type'])
+    ref = "&" if d.get('ref', False) else ""
+    optional = " [optional]" if d.get('optional', False) else ""
+    return "@param " + ref + param_type + ' $' + name + optional
+
+
 def __join_array(param) -> str:
     if type(param) is str:
         return param
@@ -35,21 +49,10 @@ def __join_array(param) -> str:
     raise Exception("Invalid param type")
 
 
-def _format_param(name: str, param, param_summary: callable):
-    return [__format_param_signature(name, param) + " ", *(param_summary(name).splitlines())]
-
-
-def __format_param_signature(name, d):
-    param_type = __join_array(d['type'])
-    ref = "&" if d['ref'] else ""
-    optional = " [optional]" if d['optional'] else ""
-    return "@param " + ref + param_type + ' $' + name + optional + " "
-
-
 def __suffix_new_line(parameters_: list) -> list:
     if len(parameters_) == 0:
         return []
-    parameters_.append("")
+    parameters_.insert(0, "")
     return parameters_
 
 
@@ -117,4 +120,4 @@ def __with_suffix(text: str, suffix: str) -> str:
 
 def __format_comment(lines: list, indent) -> str:
     pad = indent * ' '
-    return pad + ("\n" + pad).join(["/**", *(" * " + line for line in lines), " */"])
+    return pad + ("\n" + pad).join(["/**", *((" * " + line).rstrip(' ') for line in lines), " */"])
