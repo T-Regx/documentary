@@ -36,9 +36,16 @@ def _format_param(name: str, param, param_summary: callable):
 
 def __format_param_signature(name, d):
     param_type = __join_array(d['type'])
-    ref = "&" if d.get('ref', False) else ""
-    optional = " [optional]" if d.get('optional', False) else ""
-    return "@param " + ref + param_type + ' $' + name + optional
+    is_ref = d.get('ref', False)
+    ref = "&" if is_ref else ""
+    modifiers = ''
+    if is_ref and d.get('optional', False):
+        modifiers = ' [optional, reference]'
+    elif is_ref:
+        modifiers = ' [reference]'
+    elif d.get('optional', False):
+        modifiers = ' [optional]'
+    return "@param " + param_type + ' ' + ref + '$' + name + modifiers
 
 
 def __join_array(param) -> str:

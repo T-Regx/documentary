@@ -143,8 +143,8 @@ class FormatTest(unittest.TestCase):
      * Just a summary.
      *
      * @param int $first [optional] !first!
-     * @param &int $second !second!
-     * @param &int $both [optional] !both!
+     * @param int &$second [reference] !second!
+     * @param int &$both [optional, reference] !both!
      *
      * @return string just a return value
      */""")
