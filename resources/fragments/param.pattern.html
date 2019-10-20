@@ -25,8 +25,8 @@ Available flags:
 
     For example:
     <ul>
-      <li>"/ó/ui" is the same as "/Ó/u"</li>
-      <li>"/śźć/ui" is the same as "/ŚŹĆ/u"</li>
+      <li>`/ó/ui` is the same as `/Ó/u`</li>
+      <li>`/śźć/ui` is the same as `/ŚŹĆ/u`</li>
       <li>TODO: dopisac jeszcze \p{L}</li>
     </ul>
   </li>
@@ -87,4 +87,19 @@ Available flags:
   </li>
 </ul>
 
-<p>For a non-delimited pattern, use pattern() or Pattern::of().</p>
+<p>Parameter `pattern` must be delimited (e.g. `/[a-z]/`). For a non-delimited pattern, use `pattern()` or `Pattern::of()`.</p>
+
+<p>Note:</p>
+<p>There's no flag `g` available in PHP regular expressions.</p>
+<ul>
+  <li>To match more than one occurrence, use `preg::match_all()`, instead of `preg::match()`.</li>
+  <li>Replacing methods (`preg::replace()`, `preg::replace_callback()`, etc.) already replace every occurrence. Use
+    `limit` to limit it to only the first occurrence.
+  </li>
+  <li>Method `preg::split()` already splits elements by every occurrence. Use `limit` to limit it to only the first
+    occurrence.
+  </li>
+  <li>When filtering (`preg::grep()`, `preg::grep_keys()`), it doesn't matter whether a pattern is matched once or
+    more.
+  </li>
+</ul>

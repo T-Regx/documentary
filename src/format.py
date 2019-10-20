@@ -109,7 +109,6 @@ def _format_throws() -> list:
         '@throws RuntimeSafeRegexException',
         '@throws SuspectedReturnSafeRegexException',
         '@throws CompileSafeRegexException',
-        '@throws SafeRegexException',
     ]
 
 

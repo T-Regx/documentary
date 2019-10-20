@@ -42,7 +42,6 @@ class FormatTest(unittest.TestCase):
      * @throws RuntimeSafeRegexException
      * @throws SuspectedReturnSafeRegexException
      * @throws CompileSafeRegexException
-     * @throws SafeRegexException
      */""")
 
     def test_multiple_return_types(self):
