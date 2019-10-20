@@ -151,15 +151,6 @@ class DetailsTest(unittest.TestCase):
         self.assertRaises(ParameterTypeException, build_details,
                           params={'str_replace': {'param': {'text': {'flags': ['ONE_VALID', '-invalid-']}}}})
 
-    def test_parameter_dict_throw_on_invalid_flag_declaration(self):
-        # then
-        self.assertRaises(ParameterTypeException, build_details,
-                          params={'str_replace': {'param': {'text': {'ref': True, 'flags': ['ONE']}}}})
-        self.assertRaises(ParameterTypeException, build_details,
-                          params={'str_replace': {'param': {'text': {'type': 'int', 'flags': ['ONE']}}}})
-        self.assertRaises(ParameterTypeException, build_details,
-                          params={'str_replace': {'param': {'text': {'optional': True, 'flags': ['ONE']}}}})
-
     def test_parameter_list_throw_on_empty_flag(self):
         # then
         self.assertRaises(ParameterTypeException, build_details, params={'str_replace': {'param': {'flags': []}}})

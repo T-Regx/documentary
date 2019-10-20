@@ -113,8 +113,8 @@ def __unravel_param(name: str, param) -> dict:
 
 def __unravel_param_dict(name: str, param):
     if 'flags' in param and param['flags'] is not None:
-        if 'type' in param or 'optional' in param or 'ref' in param:
-            raise ParameterTypeException("Possibly conflicted `flags` declaration in parameter '%s'" % name)
+        if 'type' in param and param['type'] is not 'int':
+            raise ParameterTypeException("Possibly conflicted 'flags' declaration in parameter '%s'" % name)
         if any(item for item in param['flags'] if not __is_valid_flag(item)):
             raise ParameterTypeException('Malformed flag')
         return __param('int', optional=True, ref=True, flags=param['flags'])
@@ -138,7 +138,7 @@ def __unravel_param_list(name: str, param: list) -> dict:
         param.remove('&ref')
     if name == 'flags' and not _any_types(param):
         if len(param) == 0:
-            raise ParameterTypeException('Parameter `flags` is empty')
+            raise ParameterTypeException("Parameter 'flags' is empty")
         d['type'] = 'int'
         d['optional'] = True
         d['flags'] = param
