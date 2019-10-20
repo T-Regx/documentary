@@ -30,15 +30,14 @@ class DetailsTest(unittest.TestCase):
 
     def test_parse_parameters_dict_flags_as_list(self):
         # given
-        declarations = {
-            'str_replace': {'param': {'text': {'flags': ['FLAG_ONE']}}}}
+        declarations = {'str_replace': {'param': {'text': {'flags': ['FLAG_ONE']}}}}
 
         # when
         result = build_details(summaries={}, params=declarations, links={})
 
         # then
         self.assertEqual(result, {
-            'str_replace': {'param': {'text': {'type': 'int', 'optional': True, 'ref': True, 'flags': ['FLAG_ONE']}}}})
+            'str_replace': {'param': {'text': {'type': 'int', 'optional': True, 'ref': False, 'flags': ['FLAG_ONE']}}}})
 
     def test_parse_parameters_list(self):
         # given

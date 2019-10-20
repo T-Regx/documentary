@@ -117,7 +117,7 @@ def __unravel_param_dict(name: str, param):
             raise ParameterTypeException("Possibly conflicted 'flags' declaration in parameter '%s'" % name)
         if any(item for item in param['flags'] if not __is_valid_flag(item)):
             raise ParameterTypeException('Malformed flag')
-        return __param('int', optional=True, ref=True, flags=param['flags'])
+        return __param('int', optional=True, ref=False, flags=param['flags'])
     if 'type' not in param:
         raise ParameterTypeException('No type parameter')
     if not __is_valid_type(param['type']):
