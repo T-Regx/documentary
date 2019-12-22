@@ -148,10 +148,11 @@ class FormatTest(unittest.TestCase):
      * @return string just a return value
      */""")
 
-    def test_multiline_params(self):
+    def test_params_multiline(self):
         # when
-        result = self._print_method(param={'first': {'type': 'int'}, 'second': {'type': 'int'}, },
-                                    param_mapper=lambda param: '!' + param + '!\nFoo\nBar\nLorem')
+        result = self._print_method(
+            param={'first': {'type': 'int'}, 'second': {'type': 'int'}, },
+            param_mapper=lambda param: '!' + param + '!\nFoo\nBar\nLorem')
 
         # then
         self.assertEqual(result, """    /**
@@ -169,10 +170,11 @@ class FormatTest(unittest.TestCase):
      * @return string just a return value
      */""")
 
-    def test_param_single_line(self):
+    def test_params_single_line(self):
         # when
-        result = self._print_method(param={'first': {'type': 'int'}, 'second': {'type': 'int'}, },
-                                    param_mapper=lambda param: 'Foo')
+        result = self._print_method(
+            param={'first': {'type': 'int'}, 'second': {'type': 'int'}},
+            param_mapper=lambda x: 'Foo')
 
         # then
         self.assertEqual(result, """    /**
@@ -221,7 +223,8 @@ class FormatTest(unittest.TestCase):
                 'link': links or [],
                 'throws': throws
             },
-            format_method=lambda x: x,
+            format_method=lambda x: x,  # untested stuffs
             param_mapper=param_mapper,
+            method_mapper=lambda x: x,  # untested stuffs
             include_template_tag=include_template,
             indent=4)

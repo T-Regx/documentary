@@ -10,3 +10,7 @@ def interlace(parts: list, value) -> list:
         return parts
     values = [(value, x) for x in parts]
     return [x for value in values for x in value][1:]
+
+
+def flatmap(values: list) -> list:
+    return [y for x in values for y in x]

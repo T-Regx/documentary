@@ -1,4 +1,5 @@
-from .code_parts import replace_code_parts
+from .markup import replace_template_strings
+from .utils import interlace, flatmap
 
 
 def print_method(details: dict,
@@ -7,29 +8,32 @@ def print_method(details: dict,
                  method_mapper: callable,
                  include_template_tag: bool,
                  indent: int) -> str:
-    return replace_code_parts(
-        string=__format_comment(comment_lines(details, format_method, include_template_tag, param_mapper, method_mapper), indent),
-        is_param=lambda x: x in details['param'].keys())
+    sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, method_mapper)
+
+    content = __comment_as_lines(__join_sections(sections), indent)
+
+    return replace_template_strings(content,
+                                    tag=lambda x: 'i' if x in details['param'].keys() else 'b')
 
 
-def comment_lines(details: dict,
-                  format_method: callable,
-                  include_template_tag: bool,
-                  param_mapper: callable,
-                  method_mapper: callable) -> list:
+def render_comment_as_parts(details: dict,
+                            format_method: callable,
+                            include_template_tag: bool,
+                            param_mapper: callable,
+                            method_mapper: callable) -> list:
     return [
-        *(['{@documentary:%s}' % details['name'], ''] if include_template_tag else []),
-        *__suffix_new_line([details['definition']] if 'definition' in details else method_mapper().splitlines()),
-        *__suffix_new_line(_flat_map_new_lines(_format_params(details['param'], param_mapper))),
-        *__suffix_new_line(_format_return(details['return'], details['return-type'])),
-        *__suffix_new_line([*_format_throws()] if details.get('throws', True) else []),
-        *__suffix_new_line(['@see ' + format_method(see) for see in details['see']]),
-        *__suffix_new_line(['@link ' + format_method(see) for see in details['link']]),
+        ['{@documentary:%s}' % details['name']] if include_template_tag else [],
+        [__norm(details['definition'])] if 'definition' in details else method_mapper().splitlines(),
+        flatmap(_format_params(details['param'], param_mapper)),
+        _format_return(details['return'], details['return-type']),
+        [*_format_throws()] if details.get('throws', True) else [],
+        ['@see ' + format_method(see) for see in details['see']],
+        ['@link ' + link for link in details['link']],
     ]
 
 
-def _flat_map_new_lines(strings) -> list:
-    return [y for x in strings for y in x]
+def __join_sections(parts: list) -> list:
+    return [line for lines in interlace([part for part in parts if part], ['']) for line in lines]
 
 
 def _format_params(params: dict, param_summary: callable):
@@ -65,13 +69,6 @@ def __join_array(param) -> str:
     if type(param) is list:
         return "|".join(param)
     raise Exception("Invalid param type")
-
-
-def __suffix_new_line(lines: list) -> list:
-    if len(lines) == 0:
-        return []
-    lines.insert(0, "")
-    return lines
 
 
 def _format_return(values, types):
@@ -135,6 +132,17 @@ def __with_suffix(text: str, suffix: str) -> str:
     return text if text.endswith(suffix) else text + suffix
 
 
-def __format_comment(lines: list, indent) -> str:
-    pad = indent * ' '
-    return pad + ("\n" + pad).join(["/**", *((" * " + line).rstrip(' ') for line in lines), " */"])
+def __comment_as_lines(lines: list, indent) -> str:
+    return "\n".join(__indented_comment(lines, indent))
+
+
+def __indented_comment(lines: list, indent: int) -> list:
+    return [indent * ' ' + line for line in __unindented_comment(lines)]
+
+
+def __unindented_comment(lines: list) -> list:
+    return [
+        "/**",
+        *((" * " + line).rstrip(' ') for line in lines),
+        " */"
+    ]
