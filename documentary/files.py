@@ -21,11 +21,27 @@ def file_directory(path):
     return os.path.dirname(os.path.abspath(path))
 
 
-def fragment(path: str, filename: str, second_filename: str = None) -> str:
+def fragment_fallback(path: str, filename: str, second_filename: str = None) -> str:
+    return __fragment_or(
+        path,
+        filename,
+        lambda: __fragment_or(path, second_filename, lambda: '') if second_filename else '')
+
+
+def fragment(path: str, filename: str) -> str:
+    def missing_fragment():
+        raise MissingFragmentException(filename)
+
+    return __fragment_or(path, filename, missing_fragment)
+
+
+def __fragment_or(path: str, filename: str, default: callable) -> str:
     try:
         with open(os.path.join(path, filename + ".html"), "r") as file:
             return file.read()
     except FileNotFoundError:
-        if second_filename:
-            return fragment(path, second_filename)
-        return ""
+        return default()
+
+
+class MissingFragmentException(Exception):
+    pass

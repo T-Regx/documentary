@@ -4,17 +4,28 @@ from .code_parts import replace_code_parts
 def print_method(details: dict,
                  format_method: callable,
                  param_mapper: callable,
+                 method_mapper: callable,
                  include_template_tag: bool,
                  indent: int) -> str:
-    return replace_code_parts(__format_comment([
+    return replace_code_parts(
+        string=__format_comment(comment_lines(details, format_method, include_template_tag, param_mapper, method_mapper), indent),
+        is_param=lambda x: x in details['param'].keys())
+
+
+def comment_lines(details: dict,
+                  format_method: callable,
+                  include_template_tag: bool,
+                  param_mapper: callable,
+                  method_mapper: callable) -> list:
+    return [
         *(['{@documentary:%s}' % details['name'], ''] if include_template_tag else []),
-        __norm(details['definition']),
+        *__suffix_new_line([details['definition']] if 'definition' in details else method_mapper().splitlines()),
         *__suffix_new_line(_flat_map_new_lines(_format_params(details['param'], param_mapper))),
         *__suffix_new_line(_format_return(details['return'], details['return-type'])),
         *__suffix_new_line([*_format_throws()] if details.get('throws', True) else []),
         *__suffix_new_line(['@see ' + format_method(see) for see in details['see']]),
         *__suffix_new_line(['@link ' + format_method(see) for see in details['link']]),
-    ], indent), lambda x: x in details['param'].keys())
+    ]
 
 
 def _flat_map_new_lines(strings) -> list:
@@ -56,11 +67,11 @@ def __join_array(param) -> str:
     raise Exception("Invalid param type")
 
 
-def __suffix_new_line(parameters_: list) -> list:
-    if len(parameters_) == 0:
+def __suffix_new_line(lines: list) -> list:
+    if len(lines) == 0:
         return []
-    parameters_.insert(0, "")
-    return parameters_
+    lines.insert(0, "")
+    return lines
 
 
 def _format_return(values, types):
