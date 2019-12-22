@@ -41,7 +41,7 @@ def put_into_template(content: str, map_template: callable) -> str:
             return map_template(match['method'], len(match[1]))
         return match[0]
 
-    return re.sub(r"^([^#\n]+)(?<!/)/\*\*[\s*]*{@template:(?P<method>\w+)}.*?\*/",
+    return re.sub(r"^([^#\n]+)(?<!/)/\*\*[\s*]*{@documentary:(?P<method>\w+)}.*?\*/",
                   repl,
                   content,
                   flags=re.MULTILINE | re.DOTALL)

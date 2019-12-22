@@ -7,7 +7,7 @@ def print_method(details: dict,
                  include_template_tag: bool,
                  indent: int) -> str:
     return replace_code_parts(__format_comment([
-        *(['{@template:%s}' % details['name'], ''] if include_template_tag else []),
+        *(['{@documentary:%s}' % details['name'], ''] if include_template_tag else []),
         __norm(details['definition']),
         *__suffix_new_line(_flat_map_new_lines(_format_params(details['param'], param_mapper))),
         *__suffix_new_line(_format_return(details['return'], details['return-type'])),

@@ -21,7 +21,7 @@ class FormatTest(unittest.TestCase):
 
         # then
         self.assertEqual(result, """    /**
-     * {@template:str_replace}
+     * {@documentary:str_replace}
      *
      * Just a summary.
      *
