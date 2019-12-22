@@ -5,3 +5,4 @@ resources/output
 dist
 build
 Documentary.egg-info
+__pycache__
