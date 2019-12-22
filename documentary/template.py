@@ -1,8 +1,8 @@
 import re
 
-from details import load_details
-from files import map_file, fragment
-from format import print_method, format_preg_method
+from documentary.details import load_details
+from documentary.files import map_file, fragment
+from documentary.format import print_method, format_preg_method
 
 
 def document_file(template: str,

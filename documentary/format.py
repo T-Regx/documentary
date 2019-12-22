@@ -1,4 +1,4 @@
-from code_parts import replace_code_parts
+from .code_parts import replace_code_parts
 
 
 def print_method(details: dict,

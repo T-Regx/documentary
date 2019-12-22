@@ -1,8 +1,8 @@
 import json
 import re
 
-from src.merge_utils import merge_dictionaries
-from src.utils import first
+from documentary.merge_utils import merge_dictionaries
+from documentary.utils import first
 
 
 def load_details(declaration: str, decorations: str, definitions: str) -> dict:

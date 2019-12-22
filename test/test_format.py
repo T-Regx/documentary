@@ -1,6 +1,6 @@
 import unittest
 
-from format import print_method, format_preg_method
+from documentary.format import print_method, format_preg_method
 
 
 class FormatTest(unittest.TestCase):
