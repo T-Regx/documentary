@@ -1,6 +1,6 @@
 import unittest
 
-from utils import first
+from utils import first, interlace
 
 
 class UtilsTest(unittest.TestCase):
@@ -17,3 +17,9 @@ class UtilsTest(unittest.TestCase):
 
         # then
         self.assertIsNone(value)
+
+    def test_interlace(self):
+        self.assertEqual([], interlace([], ''))
+        self.assertEqual([1], interlace([1], ''))
+        self.assertEqual([1, '', 2, '', 3], interlace([1, 2, 3], ''))
+        self.assertEqual([1, '', 2], interlace([1, 2], ''))
