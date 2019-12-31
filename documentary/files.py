@@ -1,14 +1,17 @@
 import os
 
 
-def map_file(template: str, output: str, mapper: callable) -> None:
+def map_file(template: str, output: str, mapper: callable) -> bool:
     with open(template, "r") as file:
         content = file.read()
 
     _create_directory_for_file(output)
     new_content = mapper(content)
+    if new_content == content:
+        return False
     with open(output, "w+") as file:
         file.write(new_content)
+    return True
 
 
 def _create_directory_for_file(path: str):

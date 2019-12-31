@@ -11,15 +11,15 @@ def document_file(template: str,
                   decorations: str,
                   definitions: str,
                   fragments: str,
-                  include_template_tag: bool) -> None:
+                  include_template_tag: bool) -> bool:
     printer = Printer(
         load_details(declaration, decorations, definitions),
         lambda method, param: fragment_fallback(fragments, method + '.param.' + param, 'param.' + param),
         lambda method: fragment(fragments, 'method.' + method),
     )
-    map_file(template,
-             output,
-             lambda content: put_into_template(content, lambda m, i: printer.print(m, include_template_tag, i)))
+    return map_file(template,
+                    output,
+                    lambda content: put_into_template(content, lambda m, i: printer.print(m, include_template_tag, i)))
 
 
 class Printer:

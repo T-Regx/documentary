@@ -5,7 +5,7 @@ from documentary.template import document_file
 
 
 def document(template_path: str, documentary_path: str) -> None:
-    document_file(
+    documented = document_file(
         template=template_path,
         output=template_path,
         declaration=path.join(documentary_path, 'declaration.json'),
@@ -14,7 +14,7 @@ def document(template_path: str, documentary_path: str) -> None:
         fragments=(path.join(documentary_path, 'fragments')),
         include_template_tag=True,
     )
-    print("Documented file {}".format(template_path))
+    print(("Documented file {}" if documented else "File {} remains unchanged").format(template_path))
 
 
 def main():
