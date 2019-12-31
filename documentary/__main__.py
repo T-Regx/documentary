@@ -21,7 +21,7 @@ def main():
     args = parse_args()
 
     documentary_path = path.join(getcwd(), 'documentary')
-    method_path = path.join(getcwd(), 'documentary', args.template + '.documentation')
+    method_path = path.join(getcwd(), 'documentary', args.template)
     template_path = path.join(getcwd(), args.template)
 
     if not path.exists(documentary_path):
