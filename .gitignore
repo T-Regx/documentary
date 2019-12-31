@@ -1,6 +1,7 @@
 .idea
 *.iml
 venv
+version
 resources/output
 dist
 build
