@@ -14,7 +14,7 @@ def document(template_path: str, documentary_path: str) -> None:
         fragments=(path.join(documentary_path, 'fragments')),
         include_template_tag=True,
     )
-    print(("Documented file {}" if documented else "File {} remains unchanged").format(template_path))
+    print(('Documented file "{}"' if documented else 'File "{}" remains unchanged').format(template_path))
 
 
 def main():
@@ -28,12 +28,12 @@ def main():
         print('To generate a documentation, navigate to a directory with "documentary" folder')
         return
 
-    if not path.exists(template_path):
-        print("Tried to documentation file {}, but it doesn't exist".format(template_path))
+    if not path.exists(method_path):
+        print('File "{}" is missing in documentary folder'.format(path.normpath(args.template)))
         return
 
-    if not path.exists(method_path):
-        print('To generate a documentation, navigate to a directory with "documentary" folder')
+    if not path.exists(template_path):
+        print('Tried to documentation file "{}", but it doesn\'t exist'.format(template_path))
         return
 
     document(template_path, method_path)
