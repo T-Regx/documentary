@@ -50,8 +50,8 @@ class DetailsTest(unittest.TestCase):
     def test_asterisk(self):
         # given
         decorations = {
-            'methods': {'print': {'see': ['see-method'], 'link': ['://link']}},
-            '*': {'see': ['global-see', 'another-global-see'], 'link': ['global-link']}
+            'methods': {'print': {'see': ['see-method'], 'link': ['://link'], 'throws': ['exception']}},
+            '*': {'see': ['global-see', 'another-global-see'], 'link': ['global-link'], 'throws': ['global-throw']}
         }
 
         # when
@@ -62,5 +62,6 @@ class DetailsTest(unittest.TestCase):
             'print': {
                 'see': ['see-method', 'global-see', 'another-global-see'],
                 'link': ['://link', 'global-link'],
+                'throws': ['exception', 'global-throw']
             }
         }, result)

@@ -37,6 +37,7 @@ def __decorations_append_global_decorations(decoration: dict) -> dict:
         for method in decoration['methods'].values():
             method['see'].extend(asterisk['see'])
             method['link'].extend(asterisk['link'])
+            method['throws'].extend(asterisk['throws'])
 
     return decoration
 
