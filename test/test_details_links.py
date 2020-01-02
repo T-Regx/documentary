@@ -19,7 +19,7 @@ class DetailsTest(unittest.TestCase):
             }
         })
 
-    def test_groups(self):
+    def test_see_groups(self):
         # given
         decorations = {
             'methods': {
@@ -29,10 +29,12 @@ class DetailsTest(unittest.TestCase):
                 'search_very': {'see': ['Ipsum']},
                 'eval': {'see': ['Dont fucking use this!']}
             },
-            'groups': [
-                ['replace_much', 'replace'],
-                ['search', 'search_very'],
-            ]
+            'groups': {
+                'see': [
+                    ['replace_much', 'replace'],
+                    ['search', 'search_very'],
+                ]
+            }
         }
 
         # when
@@ -46,6 +48,20 @@ class DetailsTest(unittest.TestCase):
             'search_very': {'see': ['Ipsum', 'search']},
             'eval': {'see': ['Dont fucking use this!']}
         })
+
+    def test_see_groups_raises_for_missing_methods(self):
+        # given
+        decorations = {
+            'methods': {},
+            'groups': {'see': [['foo']]}
+        }
+
+        # when
+        with self.assertRaises(Exception) as error:
+            build_details(links=decorations)
+
+        # then
+        self.assertEqual(str(error.exception), "Method 'foo' used in 'groups.see' is not declared")
 
     def test_asterisk(self):
         # given

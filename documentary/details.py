@@ -19,7 +19,7 @@ def build_details(summaries: dict = None, params: dict = None, links: dict = Non
     summaries = __populate_consts(__put_name(__inherit(summaries if summaries else {})))
     params = __polyfill_params(__unravel_params(__inherit(params if params else {})))
     links = __decorations_move_manual_to_link(
-        __decorations_process_groups(__decorations_append_global_decorations(links if links else {})))
+        __decorations_process_see_groups(__decorations_append_global_decorations(links if links else {})))
 
     return merge_dictionaries([params, links, summaries], False)
 
@@ -63,15 +63,17 @@ def __inherit(declarations: dict) -> dict:
     return declarations
 
 
-def __decorations_process_groups(decorations: dict) -> dict:
-    return __process_groups(decorations.get('methods', {}).copy(), decorations.get('groups', {}))
+def __decorations_process_see_groups(decorations: dict) -> dict:
+    return __process_see_groups(
+        decorations.get('methods', {}).copy(),
+        decorations.get('groups', {}).get('see', []))
 
 
-def __process_groups(methods: dict, groups: list) -> dict:
+def __process_see_groups(methods: dict, groups: list) -> dict:
     for group in groups:
         invalid_method = first(group, lambda x: x not in methods)
         if invalid_method:
-            raise Exception(f"Invalid method '{invalid_method}'")
+            raise Exception(f"Method 'foo' used in 'groups.see' is not declared")
         for method, decoration in methods.items():
             if method in group:
                 decoration['see'].extend([x for x in group if x != method])
