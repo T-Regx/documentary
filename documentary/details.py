@@ -70,7 +70,7 @@ def __process_groups(methods: dict, groups: list) -> dict:
     for group in groups:
         invalid_method = first(group, lambda x: x not in methods)
         if invalid_method:
-            raise Exception("Invalid method '%s'" % invalid_method)
+            raise Exception(f"Invalid method '{invalid_method}'")
         for method, decoration in methods.items():
             if method in group:
                 decoration['see'].extend([x for x in group if x != method])
@@ -108,20 +108,20 @@ def __unravel_param(name: str, param) -> dict:
         return __param(_type=param)
     if type(param) is list:
         return __unravel_param_list(name, param)
-    raise ParameterTypeException("unexpected param type %s" % type(name))
+    raise ParameterTypeException(f"unexpected param type {type(name)}")
 
 
 def __unravel_param_dict(name: str, param):
     if 'flags' in param and param['flags'] is not None:
         if 'type' in param and param['type'] is not 'int':
-            raise ParameterTypeException("Possibly conflicted 'flags' declaration in parameter '%s'" % name)
+            raise ParameterTypeException(f"Possibly conflicted 'flags' declaration in parameter '{name}'")
         if any(item for item in param['flags'] if not __is_valid_flag(item)):
             raise ParameterTypeException('Malformed flag')
         return __param('int', optional=True, ref=False, flags=param['flags'])
     if 'type' not in param:
         raise ParameterTypeException('No type parameter')
     if not __is_valid_type(param['type']):
-        raise ParameterTypeException('Invalid parameter type value: %s' % param['type'])
+        raise ParameterTypeException(f'Invalid parameter type value: {param["type"]}')
     return __param(_type=param['type'],
                    optional=param.get('optional', False),
                    ref=param.get('ref', False),
@@ -148,7 +148,7 @@ def __unravel_param_list(name: str, param: list) -> dict:
     if _only_types(param):
         d['type'] = param[0] if len(param) == 1 else param
         return d
-    raise ParameterTypeException("unexpected param type %s: %s" % (name, json.dumps(param)))
+    raise ParameterTypeException(f"unexpected param type {name}: {json.dumps(param)}")
 
 
 def __param(_type: str, optional: bool = False, ref: bool = False, flags: list = None):

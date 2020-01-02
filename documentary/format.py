@@ -22,7 +22,7 @@ def render_comment_as_parts(details: dict,
                             param_mapper: callable,
                             method_mapper: callable) -> list:
     return [
-        ['{@documentary:%s}' % details['name']] if include_template_tag else [],
+        {'{{@documentary:{}}}'.format(details['name'])} if include_template_tag else [],
         [__norm(details['definition'])] if 'definition' in details else method_mapper().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
@@ -93,7 +93,7 @@ def __format_return_value(return_value) -> list:
     if type(return_value) is dict:
         if len(return_value) == 2:
             return [
-                "returns " + ", ".join('<b>%s</b> %s' % (t, x['when']) for t, x in return_value.items()),
+                "returns " + ", ".join(f'<b>{t}</b> {x["when"]}' for t, x in return_value.items()),
                 "<ul>",
                 *(' <li>%s %s</li>' % (x['return'], x['when']) for x in return_value.values()),
                 "</ul>"
@@ -101,7 +101,7 @@ def __format_return_value(return_value) -> list:
         raise Exception("Can't print multiple return types greater than 2")
     if type(return_value) is str:
         return [return_value]
-    raise Exception("invalid type %s" % type(return_value))
+    raise Exception(f"invalid type {type(return_value)}")
 
 
 def __valid_return(values, types):

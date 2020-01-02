@@ -35,8 +35,8 @@ def __dict_merge(dictionary: dict, copy_from: dict, allow_override: bool = True)
             __dict_merge(dictionary[k], copy_from[k])
         else:
             if not allow_override and k in dictionary:
-                raise DuplicateKeysException("key '%s' duplicated in both dictionaries (%s, %s)" %
-                                             (k, json.dumps(dictionary), json.dumps(copy_from)))
+                raise DuplicateKeysException("key '{}' duplicated in both dictionaries ({}, {})"
+                                             .format(k, json.dumps(dictionary), json.dumps(copy_from)))
             dictionary[k] = copy_from[k]
 
 

@@ -9,4 +9,4 @@ def replace_template_strings(string: str, tag: callable) -> str:
 
 
 def markup(tag: str, value: str) -> str:
-    return "<%s>%s</%s>" % (tag, value, tag)
+    return f"<{tag}>{value}</{tag}>"

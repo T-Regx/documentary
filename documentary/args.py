@@ -14,4 +14,4 @@ def parse_args():
 def __try_get_path(p: argparse.ArgumentParser, file):
     if os.path.exists(file):
         return file
-    p.error("The file '%s' does not exist!" % file)
+    p.error(f"The file '{file}' does not exist!")
