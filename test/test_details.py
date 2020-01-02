@@ -13,7 +13,10 @@ class DetailsTest(unittest.TestCase):
             }
         }
         decorations = {
-            'methods': {'print': {'links': ['https://google.com']}},
+            'methods': {'print': {
+                'links': ['https://google.com'],
+                'throws': []
+            }},
         }
         definitions = {
             "print": {
@@ -33,7 +36,8 @@ class DetailsTest(unittest.TestCase):
                 'param': {'text': {'type': 'string', 'optional': False, 'ref': False, 'flags': None}},
                 'return': 'replaced string',
                 'return-type': 'string',
-                'links': ['https://google.com']
+                'links': ['https://google.com'],
+                'throws': []
             }
         })
 

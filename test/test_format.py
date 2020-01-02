@@ -30,7 +30,7 @@ class FormatTest(unittest.TestCase):
 
     def test_throws(self):
         # when
-        result = self._print_method(throws=True)
+        result = self._print_method(throws=['ThirdException', 'FourthException'])
 
         # then
         self.assertEqual(result, """    /**
@@ -38,10 +38,8 @@ class FormatTest(unittest.TestCase):
      *
      * @return string just a return value
      *
-     * @throws MalformedPatternException
-     * @throws RuntimeSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws CompileSafeRegexException
+     * @throws ThirdException
+     * @throws FourthException
      */""")
 
     def test_multiple_return_types(self):
@@ -210,7 +208,7 @@ class FormatTest(unittest.TestCase):
                       see=None,
                       links=None,
                       param_mapper=lambda x: x,
-                      throws=False,
+                      throws=None,
                       include_template=False):
         return print_method(
             details={
@@ -221,7 +219,7 @@ class FormatTest(unittest.TestCase):
                 'return-type': return_type or 'string',
                 'see': see or [],
                 'link': links or [],
-                'throws': throws
+                'throws': throws or []
             },
             format_method=lambda x: x,  # untested stuffs
             param_mapper=param_mapper,

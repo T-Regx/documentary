@@ -26,7 +26,7 @@ def render_comment_as_parts(details: dict,
         [__norm(details['definition'])] if 'definition' in details else method_mapper().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
-        [*_format_throws()] if details.get('throws', True) else [],
+        _format_throws(details['throws']),
         ['@see ' + format_method(see) for see in details['see']],
         ['@link ' + link for link in details['link']],
     ]
@@ -111,13 +111,8 @@ def __valid_return(values, types):
     return type(values) is str and type(types) is str
 
 
-def _format_throws() -> list:
-    return [
-        '@throws MalformedPatternException',
-        '@throws RuntimeSafeRegexException',
-        '@throws SuspectedReturnSafeRegexException',
-        '@throws CompileSafeRegexException',
-    ]
+def _format_throws(exceptions: list) -> list:
+    return [f'@throws {exception}' for exception in exceptions]
 
 
 def __norm(text: str) -> str:
