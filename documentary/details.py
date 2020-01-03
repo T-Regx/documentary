@@ -18,8 +18,9 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
 def build_details(summaries: dict = None, params: dict = None, links: dict = None) -> dict:
     summaries = __populate_consts(__put_name(__inherit(summaries if summaries else {})))
     params = __polyfill_params(__unravel_params(__inherit(params if params else {})))
-    links = __decorations_move_manual_to_link(
-        __decorations_process_see_groups(__decorations_append_global_decorations(links if links else {})))
+    groups = __decorations_process_throws_groups(
+        __decorations_process_see_groups(__decorations_append_global_decorations(links or {})))
+    links = __decorations_move_manual_to_link(groups['methods'])
 
     return merge_dictionaries([params, links, summaries], False)
 
@@ -64,9 +65,21 @@ def __inherit(declarations: dict) -> dict:
 
 
 def __decorations_process_see_groups(decorations: dict) -> dict:
-    return __process_see_groups(
-        decorations.get('methods', {}).copy(),
-        decorations.get('groups', {}).get('see', []))
+    return {
+        **decorations,
+        'methods': __process_see_groups(
+            decorations.get('methods', {}).copy(),
+            decorations.get('groups', {}).get('see', []))
+    }
+
+
+def __decorations_process_throws_groups(decorations: dict) -> dict:
+    return {
+        **decorations,
+        'methods': __process_throws_groups(
+            decorations.get('methods', {}).copy(),
+            decorations.get('groups', {}).get('throws', []))
+    }
 
 
 def __process_see_groups(methods: dict, groups: list) -> dict:
@@ -77,6 +90,16 @@ def __process_see_groups(methods: dict, groups: list) -> dict:
         for method, decoration in methods.items():
             if method in group:
                 decoration['see'].extend([x for x in group if x != method])
+    return methods
+
+
+def __process_throws_groups(methods: dict, groups: list) -> dict:
+    for group in groups:
+        invalid_method = first(group['methods'], lambda x: x not in methods)
+        if invalid_method:
+            raise Exception(f"Method '{invalid_method}' used in 'groups.throws' is not declared")
+        for method in group['methods']:
+            methods[method]['throws'].extend(group['exceptions'])
     return methods
 
 
