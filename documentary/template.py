@@ -15,7 +15,7 @@ def document_file(documentary: str,
                   include_template_tag: bool) -> bool:
     printer = Printer(
         load_details(declaration, decorations, definitions),
-        lambda method, param: fragment_fallback(fragments, method + '.param.' + param, 'param.' + param),
+        lambda method, param: fragment_fallback(fragments, method + '.param.' + param, 'param.' + param, documentary),
         lambda method: fragment(fragments, 'method.' + method),
     )
     return map_file(template,
