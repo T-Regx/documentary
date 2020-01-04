@@ -24,11 +24,11 @@ def file_directory(path):
     return os.path.dirname(os.path.abspath(path))
 
 
-def fragment_fallback(path: str, filename: str, second_filename: str = None) -> str:
-    return __fragment_or(
-        path,
-        filename,
-        lambda: __fragment_or(path, second_filename, lambda: '') if second_filename else '')
+def fragment_fallback(path: str, filename: str, second_filename: str) -> str:
+    project_param = lambda: __fragment_or(path, second_filename, lambda: '')
+    class_param = lambda: __fragment_or(path, second_filename, project_param)
+    method_param = lambda: __fragment_or(path, filename, class_param)
+    return method_param()
 
 
 def fragment(path: str, filename: str) -> str:
