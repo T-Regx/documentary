@@ -5,7 +5,8 @@ from documentary.files import map_file, fragment_fallback, fragment
 from documentary.format import print_method, format_preg_method
 
 
-def document_file(template: str,
+def document_file(documentary: str,
+                  template: str,
                   output: str,
                   declaration: str,
                   decorations: str,
