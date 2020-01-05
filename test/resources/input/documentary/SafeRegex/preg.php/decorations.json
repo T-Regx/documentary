@@ -1,0 +1,182 @@
+{
+  "methods": {
+    "match": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-match.php",
+        "t-regx": "https://t-regx.com/docs/match-first"
+      },
+      "throws": []
+    },
+    "match_all": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-match-all.php",
+        "t-regx": "https://t-regx.com/docs/match"
+      },
+      "throws": []
+    },
+    "replace": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-replace.php",
+        "t-regx": "https://t-regx.com/docs/replace-with"
+      },
+      "throws": []
+    },
+    "replace_callback": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-replace-callback.php",
+        "t-regx": "https://t-regx.com/docs/replace-callback"
+      },
+      "throws": []
+    },
+    "replace_callback_array": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-replace-callback-array.php",
+        "t-regx": null
+      },
+      "throws": []
+    },
+    "filter": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-filter.php",
+        "t-regx": null
+      },
+      "throws": []
+    },
+    "split": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-split.php",
+        "t-regx": "https://t-regx.com/docs/split"
+      },
+      "throws": []
+    },
+    "grep": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-grep.php",
+        "t-regx": "https://t-regx.com/docs/filter"
+      },
+      "throws": []
+    },
+    "grep_keys": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": null,
+        "t-regx": "https://t-regx.com/docs/filter#filter-by-keys"
+      },
+      "throws": []
+    },
+    "quote": {
+      "see": [
+        "Pattern::quote()",
+        "Pattern::unquote()",
+        "PreparedPattern"
+      ],
+      "link": [
+        "https://t-regx.com/docs/handling-user-input"
+      ],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-quote.php",
+        "t-regx": "https://t-regx.com/docs/quoting"
+      },
+      "throws": []
+    },
+    "last_error": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-last-error.php",
+        "t-regx": null
+      },
+      "throws": []
+    },
+    "last_error_constant": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-last-error.php",
+        "t-regx": null
+      },
+      "throws": []
+    },
+    "error_constant": {
+      "see": [],
+      "link": [],
+      "manual": {
+        "php": "https://www.php.net/manual/en/function.preg-last-error.php",
+        "t-regx": null
+      },
+      "throws": []
+    }
+  },
+  "groups": {
+    "see": [
+      [
+        "match",
+        "match_all"
+      ],
+      [
+        "replace",
+        "replace_callback",
+        "replace_callback_array",
+        "filter"
+      ],
+      [
+        "grep",
+        "grep_keys"
+      ],
+      [
+        "last_error",
+        "last_error_constant",
+        "error_constant"
+      ]
+    ],
+    "throws": [
+      {
+        "methods": [
+          "match",
+          "match_all",
+          "replace",
+          "replace_callback",
+          "replace_callback_array",
+          "filter",
+          "grep",
+          "grep_keys",
+          "split"
+        ],
+        "exceptions": [
+          "MalformedPatternException",
+          "RuntimeSafeRegexException",
+          "SuspectedReturnSafeRegexException",
+          "CompileSafeRegexException"
+        ]
+      }
+    ]
+  },
+  "*": {
+    "see": [
+      "pattern()",
+      "Pattern::of()"
+    ],
+    "link": [
+      "https://t-regx.com",
+      "https://www.regular-expressions.info/unicode.html"
+    ],
+    "throws": []
+  }
+}

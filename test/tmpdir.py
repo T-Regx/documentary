@@ -28,3 +28,8 @@ class _Handle:
 
     def join(self, *filenames: str):
         return os.path.join(self.test_dir, *filenames)
+
+    def open(self, *filenames: str) -> str:
+        join = self.join(*filenames)
+        with open(join, 'r') as file:
+            return file.read()
