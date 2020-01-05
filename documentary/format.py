@@ -116,7 +116,9 @@ def _format_throws(exceptions: list) -> list:
 
 
 def __norm(text: str) -> str:
-    return __with_suffix(text.strip(), ".")
+    if len(text.strip()):
+        return __with_suffix(text.strip(), ".")
+    return ""
 
 
 def format_preg_method(name: str) -> str:

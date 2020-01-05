@@ -199,6 +199,19 @@ class FormatTest(unittest.TestCase):
      * @return string just a return value
      */""")
 
+    def test_ignore_empty_definition(self):
+        # when
+        result = self._print_method(
+            definition='',
+        )
+
+        # then
+        self.assertEqual(result, """    /**
+     *
+     *
+     * @return string just a return value
+     */""")
+
     @staticmethod
     def _print_method(name='str_replace',
                       definition='Just a summary',
@@ -226,3 +239,10 @@ class FormatTest(unittest.TestCase):
             method_mapper=lambda x: x,  # untested stuffs
             include_template_tag=include_template,
             indent=4)
+# given
+
+
+# when
+
+
+# then
