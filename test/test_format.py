@@ -207,8 +207,6 @@ class FormatTest(unittest.TestCase):
 
         # then
         self.assertEqual(result, """    /**
-     *
-     *
      * @return string just a return value
      */""")
 

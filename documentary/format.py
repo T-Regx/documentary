@@ -33,7 +33,7 @@ def render_comment_as_parts(details: dict,
 
 
 def __join_sections(parts: list) -> list:
-    return [line for lines in interlace([part for part in parts if part], ['']) for line in lines]
+    return [line for lines in interlace([part for part in parts if any(part)], ['']) for line in lines]
 
 
 def _format_params(params: dict, param_summary: callable):
