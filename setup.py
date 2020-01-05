@@ -8,6 +8,9 @@ setup(name='Documentary',
       description='Tool for creating concise, complex phpDoc',
       license='MIT',
       packages=['documentary'],
+      install_requires=[
+          'schema>=0.7.1',
+      ],
       entry_points={
           'console_scripts': [
               'documentary = documentary.__main__:main'

@@ -46,10 +46,7 @@ def __decorations_append_global_decorations(decoration: dict) -> dict:
 def __decorations_move_manual_to_link(declaration: dict) -> dict:
     for method in declaration.values():
         if "manual" in method:
-            if method['manual']['php']:
-                method['link'].append(method['manual']['php'])
-            if method['manual']['t-regx']:
-                method['link'].append(method['manual']['t-regx'])
+            method['link'].extend(filter(None, method['manual'].values()))
             del method['manual']
     return declaration
 
