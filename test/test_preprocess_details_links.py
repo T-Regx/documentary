@@ -1,6 +1,6 @@
 import unittest
 
-from details import build_details
+from preprocess_details import build_details
 
 
 class DetailsTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from details import build_details, ParameterTypeException
+from preprocess_details import build_details, ParameterTypeException
 
 
 class DetailsTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'text': {'type': 'array[]'}}}}
 
         # when
-        result = build_details(summaries={}, params=declarations, links={})
+        result = build_details(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -22,7 +22,7 @@ class DetailsTest(unittest.TestCase):
             'str_replace': {'param': {'text': {'type': 'int', 'optional': True, 'ref': True}}}}
 
         # when
-        result = build_details(summaries={}, params=declarations, links={})
+        result = build_details(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -33,7 +33,7 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'text': {'flags': ['FLAG_ONE']}}}}
 
         # when
-        result = build_details(summaries={}, params=declarations, links={})
+        result = build_details(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -55,7 +55,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(summaries={}, params=declarations, links={})
+        result = build_details(params=declarations)
 
         # then
         self.assertEqual(result, {
