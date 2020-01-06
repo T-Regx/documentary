@@ -2,7 +2,7 @@ import re
 
 from documentary.details import load_details
 from documentary.files import map_file, fragment_fallback, fragment
-from documentary.format import print_method, format_preg_method
+from documentary.format_comment import print_method, format_preg_method
 
 
 def document_file(documentary: str,
