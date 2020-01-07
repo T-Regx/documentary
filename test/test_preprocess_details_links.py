@@ -6,7 +6,7 @@ from preprocess_details import build_details
 class DetailsTest(unittest.TestCase):
     def test_default_see(self):
         # given
-        decorations = {'methods': {'print': {'see': ['see1', 'see2'], 'links': ['link1', 'link2']}}}
+        decorations = {'methods': {'print': {'see': ['see1', 'see2'], 'link': ['link1', 'link2']}}}
 
         # when
         result = build_details(links=decorations)
@@ -15,7 +15,7 @@ class DetailsTest(unittest.TestCase):
         self.assertEqual(result, {
             'print': {
                 'see': ['see1', 'see2'],
-                'links': ['link1', 'link2'],
+                'link': ['link1', 'link2'],
             }
         })
 
@@ -53,7 +53,7 @@ class DetailsTest(unittest.TestCase):
         # given
         decorations = {
             'methods': {},
-            'groups': {'see': [['foo']]}
+            'groups': {'see': [['foo', 'bar']]}
         }
 
         # when
@@ -117,7 +117,7 @@ class DetailsTest(unittest.TestCase):
         # given
         decorations = {
             'methods': {},
-            'groups': {'throws': [{'methods': ['foo']}]}
+            'groups': {'throws': [{'methods': ['foo', 'bar'], 'exceptions': []}]}
         }
 
         # when
