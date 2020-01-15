@@ -68,6 +68,8 @@ def __join_array(param) -> str:
         return param
     if type(param) is list:
         return "|".join(param)
+    if isinstance(param, dict):
+        return param['values'] + '[]'
     raise Exception("Invalid param type")
 
 
@@ -90,7 +92,7 @@ def __format_return_type(return_type) -> str:
 
 
 def __format_return_value(return_value) -> list:
-    if type(return_value) is dict:
+    if isinstance(return_value, dict):
         if len(return_value) == 2:
             return [
                 "returns " + ", ".join(f'<b>{t}</b> {x["when"]}' for t, x in return_value.items()),
@@ -105,7 +107,7 @@ def __format_return_value(return_value) -> list:
 
 
 def __valid_return(values, types):
-    if type(values) is dict:
+    if isinstance(values, dict):
         if type(types) is list:
             return [*values.keys()] == types
     return type(values) is str and type(types) is str

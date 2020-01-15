@@ -1,8 +1,10 @@
 import json
 import re
+from collections import OrderedDict
 
 from documentary.merge_utils import merge_dictionaries
 from documentary.utils import first
+from documentary.validate import declarations, decorations, definitions
 
 
 def load_details(declaration: str, decorations: str, definitions: str) -> dict:
@@ -10,14 +12,18 @@ def load_details(declaration: str, decorations: str, definitions: str) -> dict:
         with open(declaration) as declaration_file:
             with open(decorations) as decorations_file:
                 return build_details(
-                    json.load(definitions_file),
-                    json.load(declaration_file),
-                    json.load(decorations_file))
+                    json.load(definitions_file, object_pairs_hook=OrderedDict),
+                    json.load(declaration_file, object_pairs_hook=OrderedDict),
+                    json.load(decorations_file, object_pairs_hook=OrderedDict))
 
 
 def build_details(summaries: dict = None, params: dict = None, links: dict = None) -> dict:
-    summaries = __populate_consts(__put_name(__inherit(summaries if summaries else {})))
-    params = __polyfill_params(__unravel_params(__inherit(params if params else {})))
+    definitions(summaries) if summaries else {}
+    declarations(params) if params else {}
+    decorations(links) if links else {}
+
+    summaries = __populate_consts(__put_name(__inherit(summaries or {})))
+    params = __polyfill_params(__unravel_params(__inherit(params or {})))
     groups = __decorations_process_throws_groups(
         __decorations_process_see_groups(__decorations_append_global_decorations(links or {})))
     links = __decorations_move_manual_to_link(groups['methods'])
@@ -117,7 +123,7 @@ def __unravel_params(methods: dict) -> dict:
 def __populate_consts(methods: dict) -> dict:
     for method in methods.values():
         if 'const' in method:
-            if 'return' not in method or type(method['return']) is not dict:
+            if 'return' not in method or not isinstance(method['return'], dict):
                 raise Exception("Invalid usage of key 'const'")
             for case in method['return'].values():
                 case['return'] = re.sub(':([a-z]+)', lambda match: method['const'][match[1]], case['return'])
@@ -125,7 +131,7 @@ def __populate_consts(methods: dict) -> dict:
 
 
 def __unravel_param(name: str, param) -> dict:
-    if type(param) is dict:
+    if isinstance(param, dict):
         return __unravel_param_dict(name, param)
     if type(param) is str:
         return __param(_type=param)
@@ -187,6 +193,8 @@ def _any_types(param: list) -> bool:
 
 
 def __is_valid_type(param_type: str) -> bool:
+    if isinstance(param_type, dict):
+        return param_type['type'] == 'array'
     return param_type in ['string', 'string[]', 'int', 'array', 'array[]']
 
 

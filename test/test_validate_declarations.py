@@ -30,7 +30,7 @@ class DefaultsDeclarationsTest(TestCase):
                 "param": {
                     "pattern": "string",
                     "subject": "string",
-                    "flags": ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"],
+                    "flags": {'flags': ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]},
                     "matches": ["string[]", "optional", "&ref"],
                     "offset": ["int", "optional", "&ref"]
                 },
@@ -41,7 +41,10 @@ class DefaultsDeclarationsTest(TestCase):
                     "pattern": "string",
                     "subject": "string",
                     "matches": ["array[]", "optional", "&ref"],
-                    "flags": ["PREG_PATTERN_ORDER", "PREG_SET_ORDER", "PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"],
+                    "flags": {
+                        'flags': [
+                            "PREG_PATTERN_ORDER", "PREG_SET_ORDER", "PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]
+                    },
                     "offset": ["int", "optional", "&ref"]
                 },
                 "return-type": "int"

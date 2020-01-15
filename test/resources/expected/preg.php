@@ -140,7 +140,7 @@ interface preg
      *
      * Performs a regular expression search and replace.
      *
-     * @param array $patterns_and_callbacks
+     * @param callable[] $patterns_and_callbacks
      * @param string|string[] $subject
      * @param int $limit [optional] <p>The maximum possible replacements for each pattern in each <i>subject</i> string.</p>
      * <p>A <i>limit</i> of <b>-1</b>, <b>0</b> or <b>NULL</b> means "no limit".</p>

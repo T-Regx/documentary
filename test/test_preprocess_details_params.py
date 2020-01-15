@@ -1,5 +1,7 @@
 import unittest
 
+from schema import SchemaError
+
 from preprocess_details import build_details, ParameterTypeException
 
 
@@ -49,7 +51,7 @@ class DetailsTest(unittest.TestCase):
                     'p3': ['string[]'],
                     'p4': ['string', 'optional', '&ref'],
                     'p5': ['string', '&ref'],
-                    'flags': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']
+                    'p6': {'flags': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']}
                 }
             }
         }
@@ -66,29 +68,10 @@ class DetailsTest(unittest.TestCase):
                     'p3': {'type': 'string[]', 'optional': False, 'ref': False, 'flags': None},
                     'p4': {'type': 'string', 'optional': True, 'ref': True, 'flags': None},
                     'p5': {'type': 'string', 'optional': False, 'ref': True, 'flags': None},
-                    'flags': {'type': 'int', 'optional': True, 'ref': False,
-                              'flags': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']},
+                    'p6': {'type': 'int', 'optional': True, 'ref': False,
+                           'flags': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']},
                 },
             }
-        })
-
-    def test_parse_parameters_dict_flags_as_dict(self):
-        # given
-        declarations = {
-            'foo': {'param': {'flags': {
-                "type": 'int',
-                "optional": True,
-                "flags": None
-            }}}
-        }
-
-        # when
-        result = build_details(params=declarations)
-
-        # then
-        self.assertEqual(result, {
-            'foo': {
-                'param': {'flags': {'type': 'int', 'optional': True, 'ref': False, 'flags': None}}}
         })
 
     def test_parse_parameters_inherit(self):
@@ -116,7 +99,7 @@ class DetailsTest(unittest.TestCase):
 
     def test_parse_parameters_list_single_flat(self):
         # given
-        declarations = {'str_replace': {'param': {'flags': ['FLAG_SINGLE']}}}
+        declarations = {'str_replace': {'param': {'flags': {'flags': ['FLAG_SINGLE']}}}}
 
         # when
         result = build_details(params=declarations)
@@ -132,32 +115,32 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'invalid-type': ['asd']}}}
 
         # then
-        self.assertRaises(ParameterTypeException, build_details, params=declarations)
+        self.assertRaises(SchemaError, build_details, params=declarations)
 
     def test_parameter_dict_throw_on_invalid_type(self):
         # given
         declarations = {'str_replace': {'param': {'text': {'type': 'asd'}}}}
 
         # then
-        self.assertRaises(ParameterTypeException, build_details, params=declarations)
+        self.assertRaises(SchemaError, build_details, params=declarations)
 
     def test_parameter_dict_throw_on_invalid_flag(self):
         # then
-        self.assertRaises(ParameterTypeException, build_details,
+        self.assertRaises(SchemaError, build_details,
                           params={'str_replace': {'param': {'text': {'flags': ['lowercase']}}}})
-        self.assertRaises(ParameterTypeException, build_details,
+        self.assertRaises(SchemaError, build_details,
                           params={'str_replace': {'param': {'text': {'flags': [' ']}}}})
-        self.assertRaises(ParameterTypeException, build_details,
+        self.assertRaises(SchemaError, build_details,
                           params={'str_replace': {'param': {'text': {'flags': ['ONE_VALID', '-invalid-']}}}})
 
     def test_parameter_list_throw_on_empty_flag(self):
         # then
-        self.assertRaises(ParameterTypeException, build_details, params={'str_replace': {'param': {'flags': []}}})
-        self.assertRaises(ParameterTypeException, build_details, params={'str_replace': {'param': {'flags': None}}})
+        self.assertRaises(SchemaError, build_details, params={'str_replace': {'param': {'p': {'flags': []}}}})
+        self.assertRaises(SchemaError, build_details, params={'str_replace': {'param': {'p': {'flags': None}}}})
 
     def test_parameter_list_throw_on_no_type(self):
         # then
-        self.assertRaises(ParameterTypeException, build_details,
+        self.assertRaises(SchemaError, build_details,
                           params={'str_replace': {'param': {'parameter': ['optional']}}})
 
     def test_parameter_dict_throw_on_no_type(self):

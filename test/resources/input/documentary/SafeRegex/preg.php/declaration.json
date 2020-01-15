@@ -3,7 +3,7 @@
     "param": {
       "pattern": "string",
       "subject": "string",
-      "flags": ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"],
+      "flags": {"flags": ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]},
       "matches": ["string[]", "optional", "&ref"],
       "offset": ["int", "optional", "&ref"]
     },
@@ -14,7 +14,7 @@
       "pattern": "string",
       "subject": "string",
       "matches": ["array[]", "optional", "&ref"],
-      "flags": ["PREG_PATTERN_ORDER", "PREG_SET_ORDER", "PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"],
+      "flags": {"flags": ["PREG_PATTERN_ORDER", "PREG_SET_ORDER", "PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]},
       "offset": ["int", "optional", "&ref"]
     },
     "return-type": "int"
@@ -42,9 +42,11 @@
   "replace_callback_array": {
     "param": {
       "patterns_and_callbacks": {
-        "type": "array",
-        "keys": "string",
-        "values": "callable"
+        "type": {
+          "type": "array",
+          "keys": "string",
+          "values": "callable"
+        }
       },
       "subject": ["string", "string[]"],
       "limit": ["int", "optional"],
@@ -67,7 +69,7 @@
       "pattern": "string",
       "subject": "string",
       "limit": ["int", "optional"],
-      "flags": ["PREG_SPLIT_NO_EMPTY", "PREG_SPLIT_DELIM_CAPTURE", "PREG_SPLIT_OFFSET_CAPTURE"]
+      "flags": {"flags": ["PREG_SPLIT_NO_EMPTY", "PREG_SPLIT_DELIM_CAPTURE", "PREG_SPLIT_OFFSET_CAPTURE"]}
     },
     "return-type": ["string[]", "array[]"]
   },
@@ -75,7 +77,7 @@
     "param": {
       "pattern": "string",
       "input": "array",
-      "flags": ["PREG_GREP_INVERT"]
+      "flags": {"flags": ["PREG_GREP_INVERT"]}
     },
     "return-type": "array"
   },
@@ -87,22 +89,18 @@
       "string": "string",
       "delimiter": ["string", "optional"]
     },
-    "return-type": "string",
-    "throws": false
+    "return-type": "string"
   },
   "last_error": {
-    "return-type": "int",
-    "throws": false
+    "return-type": "int"
   },
   "last_error_constant": {
-    "return-type": "string",
-    "throws": false
+    "return-type": "string"
   },
   "error_constant": {
     "param": {
       "error": "int"
     },
-    "return-type": "string",
-    "throws": false
+    "return-type": "string"
   }
 }
