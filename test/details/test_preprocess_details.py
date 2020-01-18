@@ -90,10 +90,3 @@ class DetailsTest(unittest.TestCase):
                 'throws': ['three']
             }
         })
-
-    def test_decoration_without_see(self):
-        # when
-        result = build_details({}, {}, links={'methods': {'method': {}}})
-
-        # then
-        self.assertEqual(result, {'method': {}})

@@ -126,3 +126,10 @@ class DetailsTest(unittest.TestCase):
 
         # then
         self.assertEqual(str(error.exception), "Method 'foo' used in 'groups.throws' is not declared")
+
+    def test_decoration_without_see(self):
+        # when
+        result = build_links({'methods': {'method': {}}})
+
+        # then
+        self.assertEqual(result, {'method': {}})
