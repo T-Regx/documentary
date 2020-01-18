@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from schema import SchemaError
 
-from validate import declarations
+from documentary.validate import declarations
 
 
 class DefaultsDeclarationsTest(TestCase):

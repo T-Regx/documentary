@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from validate import definitions
+from documentary.validate import definitions
 
 
 class DefaultsDefinitionsTest(TestCase):

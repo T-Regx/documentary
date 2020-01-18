@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from schema import SchemaError
 
-from validate import decorations
+from documentary.validate import decorations
 
 
 class DefaultsDecorationsTest(TestCase):

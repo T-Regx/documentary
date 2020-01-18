@@ -1,6 +1,6 @@
 import unittest
 
-from utils import first, interlace
+from documentary.utils import first, interlace
 
 
 class UtilsTest(unittest.TestCase):

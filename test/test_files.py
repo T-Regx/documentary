@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from files import fragment_fallback
+from documentary.files import fragment_fallback
 from test.tmpdir import directory
 
 

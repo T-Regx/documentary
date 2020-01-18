@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from merge_utils import merge_dictionaries, DuplicateKeysException
+from documentary.merge_utils import merge_dictionaries, DuplicateKeysException
 
 
 class MergeUtilsTest(TestCase):
