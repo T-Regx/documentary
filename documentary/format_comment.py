@@ -10,10 +10,9 @@ def print_method(details: dict,
                  indent: int) -> str:
     sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, method_mapper)
 
-    content = __comment_as_lines(__join_sections(sections), indent)
-
-    return replace_template_strings(content,
-                                    tag=lambda x: 'i' if x in details['param'].keys() else 'b')
+    return replace_template_strings(
+        string=__comment_as_lines(__join_sections(sections), indent),
+        tag=lambda x: 'i' if x in details['param'] else 'b')
 
 
 def render_comment_as_parts(details: dict,
@@ -23,7 +22,7 @@ def render_comment_as_parts(details: dict,
                             method_mapper: callable) -> list:
     return [
         {'{{@documentary:{}}}'.format(details['name'])} if include_template_tag else [],
-        [__norm(details['definition'])] if details['definition'] else method_mapper().splitlines(),
+        [__norm(details['definition'])] if details['definition'] is not None else method_mapper().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
         _format_throws(details['throws']),

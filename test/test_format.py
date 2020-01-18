@@ -201,9 +201,8 @@ class FormatTest(unittest.TestCase):
 
     def test_ignore_empty_definition(self):
         # when
-        result = self._print_method(
-            definition='',
-        )
+        result = self._print_method(definition='',
+                                    method_mapper=lambda: self.fail("Failed to assert that file definition is called"))
 
         # then
         self.assertEqual(result, """    /**
@@ -219,6 +218,7 @@ class FormatTest(unittest.TestCase):
                       see=None,
                       links=None,
                       param_mapper=lambda x: x,
+                      method_mapper=lambda: '',
                       throws=None,
                       include_template=False):
         return print_method(
@@ -234,13 +234,6 @@ class FormatTest(unittest.TestCase):
             },
             format_method=lambda x: x,  # untested stuffs
             param_mapper=param_mapper,
-            method_mapper=lambda: '',  # untested stuffs
+            method_mapper=method_mapper,  # untested stuffs
             include_template_tag=include_template,
             indent=4)
-# given
-
-
-# when
-
-
-# then
