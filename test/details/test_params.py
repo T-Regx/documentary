@@ -1,8 +1,6 @@
 import unittest
 
-from schema import SchemaError
-
-from documentary.details.preprocess_details import build_details, ParameterTypeException
+from documentary.details.preprocess_details import ParameterTypeException, build_params
 
 
 class DetailsTest(unittest.TestCase):
@@ -12,7 +10,7 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'text': {'type': 'array[]'}}}}
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -24,7 +22,7 @@ class DetailsTest(unittest.TestCase):
             'str_replace': {'param': {'text': {'type': 'int', 'optional': True, 'ref': True}}}}
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -35,7 +33,7 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'text': {'bit-sum': ['FLAG_ONE']}}}}
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -57,7 +55,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -82,7 +80,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -102,7 +100,7 @@ class DetailsTest(unittest.TestCase):
         declarations = {'str_replace': {'param': {'flags': {'bit-sum': ['FLAG_SINGLE']}}}}
 
         # when
-        result = build_details(params=declarations)
+        result = build_params(params=declarations)
 
         # then
         self.assertEqual(result, {
@@ -110,47 +108,7 @@ class DetailsTest(unittest.TestCase):
                 'param': {'flags': {'type': 'int', 'optional': True, 'ref': False, 'flags': ['FLAG_SINGLE']}}}
         })
 
-    def test_parameter_list_throw_on_invalid_type(self):
-        # given
-        declarations = {'str_replace': {'param': {'invalid-type': ['asd']}}}
-
-        # then
-        self.assertRaises(SchemaError, build_details, params=declarations)
-
-    def test_parameter_dict_throw_on_invalid_type(self):
-        # given
-        declarations = {'str_replace': {'param': {'text': {'type': 'asd'}}}}
-
-        # then
-        self.assertRaises(SchemaError, build_details, params=declarations)
-
-    def test_parameter_dict_throw_on_invalid_flag(self):
-        # then
-        self.assertRaises(SchemaError, build_details,
-                          params={'str_replace': {'param': {'text': {'flags': ['lowercase']}}}})
-        self.assertRaises(SchemaError, build_details,
-                          params={'str_replace': {'param': {'text': {'flags': [' ']}}}})
-        self.assertRaises(SchemaError, build_details,
-                          params={'str_replace': {'param': {'text': {'flags': ['ONE_VALID', '-invalid-']}}}})
-
-    def test_parameter_list_throw_on_empty_flag(self):
-        # then
-        self.assertRaises(SchemaError, build_details, params={'str_replace': {'param': {'p': {'flags': []}}}})
-        self.assertRaises(SchemaError, build_details, params={'str_replace': {'param': {'p': {'flags': None}}}})
-
-    def test_parameter_list_throw_on_no_type(self):
-        # then
-        self.assertRaises(SchemaError, build_details,
-                          params={'str_replace': {'param': {'parameter': ['optional']}}})
-
     def test_parameter_dict_throw_on_no_type(self):
         # then
-        self.assertRaises(ParameterTypeException, build_details,
+        self.assertRaises(ParameterTypeException, build_params,
                           params={'str_replace': {'param': {'parameter': {}}}})
-
-    def test_decoration_without_see(self):
-        # when
-        result = build_details({}, {}, links={'methods': {'method': {}}})
-
-        # then
-        self.assertEqual(result, {'method': {}})

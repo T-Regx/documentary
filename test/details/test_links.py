@@ -1,6 +1,6 @@
 import unittest
 
-from documentary.details.preprocess_details import build_details
+from documentary.details.preprocess_details import build_links
 
 
 class DetailsTest(unittest.TestCase):
@@ -9,7 +9,7 @@ class DetailsTest(unittest.TestCase):
         decorations = {'methods': {'print': {'see': ['see1', 'see2'], 'link': ['link1', 'link2']}}}
 
         # when
-        result = build_details(links=decorations)
+        result = build_links(decorations)
 
         # then
         self.assertEqual(result, {
@@ -38,7 +38,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(links=decorations)
+        result = build_links(decorations)
 
         # then
         self.assertEqual(result, {
@@ -58,7 +58,7 @@ class DetailsTest(unittest.TestCase):
 
         # when
         with self.assertRaises(Exception) as error:
-            build_details(links=decorations)
+            build_links(decorations)
 
         # then
         self.assertEqual(str(error.exception), "Method 'foo' used in 'groups.see' is not declared")
@@ -71,7 +71,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(links=decorations)
+        result = build_links(decorations)
 
         # then
         self.assertEqual({
@@ -102,7 +102,7 @@ class DetailsTest(unittest.TestCase):
         }
 
         # when
-        result = build_details(links=decorations)
+        result = build_links(decorations)
 
         # then
         self.assertEqual(second=result, first={
@@ -122,7 +122,7 @@ class DetailsTest(unittest.TestCase):
 
         # when
         with self.assertRaises(Exception) as error:
-            build_details(links=decorations)
+            build_links(decorations)
 
         # then
         self.assertEqual(str(error.exception), "Method 'foo' used in 'groups.throws' is not declared")
