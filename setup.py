@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from setuptools import setup
+from setuptools import setup, find_packages
 
 from version import get_and_increment
 
@@ -7,7 +7,7 @@ setup(name='Documentary',
       version='1.0.0-{}'.format(get_and_increment()),
       description='Tool for creating concise, complex phpDoc',
       license='MIT',
-      packages=['documentary'],
+      packages=find_packages(),
       install_requires=[
           'schema>=0.7.1',
       ],
