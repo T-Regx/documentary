@@ -234,7 +234,7 @@ class FormatTest(unittest.TestCase):
             },
             format_method=lambda x: x,  # untested stuffs
             param_mapper=param_mapper,
-            method_mapper=lambda x: x,  # untested stuffs
+            method_mapper=lambda: '',  # untested stuffs
             include_template_tag=include_template,
             indent=4)
 # given

@@ -23,7 +23,7 @@ def render_comment_as_parts(details: dict,
                             method_mapper: callable) -> list:
     return [
         {'{{@documentary:{}}}'.format(details['name'])} if include_template_tag else [],
-        [__norm(details['definition'])] if 'definition' in details else method_mapper().splitlines(),
+        [__norm(details['definition'])] if details['definition'] else method_mapper().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
         _format_throws(details['throws']),

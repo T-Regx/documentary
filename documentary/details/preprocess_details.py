@@ -22,17 +22,32 @@ def build_details(summaries: dict = None, params: dict = None, links: dict = Non
     declarations(params) if params else {}
     decorations(links) if links else {}
 
-    return merge_dictionaries(
-        [build_params(params or {}), build_links(links or {}), build_summaries(summaries or {})],
-        allow_override=False)
+    dictionaries = merge_dictionaries(
+        [build_params(params or {}), build_links(links or {}), build_summaries(summaries or {})], allow_override=False)
+    return polyfill_methods(dictionaries)
+
+
+def polyfill_methods(details: dict) -> dict:
+    for method, detail in details.items():
+        details[method] = {
+            "name": method,
+            "definition": detail.get('definition', None),
+            "param": detail.get('param', {}),
+            "return": detail.get('return', None),
+            "return-type": detail.get('return-type', None),
+            "throws": detail.get('throws', []),
+            "see": detail.get('see', []),
+            "link": detail.get('link', []),
+        }
+    return details
 
 
 def build_summaries(summaries: dict) -> dict:
-    return __populate_consts(__put_name(__inherit(summaries)))
+    return __populate_consts(__inherit(summaries))
 
 
 def build_params(params: dict) -> dict:
-    return __polyfill_params(__unravel_params(__inherit(params)))
+    return __unravel_params(__inherit(params))
 
 
 def build_links(links: dict) -> dict:
@@ -40,13 +55,6 @@ def build_links(links: dict) -> dict:
     link = __decorations_process_see_groups(link)
     link = __decorations_process_throws_groups(link)
     return __decorations_move_manual_to_link(link['methods'])
-
-
-def __polyfill_params(declaration: dict) -> dict:
-    for method in declaration.values():
-        if "param" not in method:
-            method['param'] = {}
-    return declaration
 
 
 def __decorations_append_global_decorations(decoration: dict) -> dict:
@@ -119,12 +127,6 @@ def __process_throws_groups(methods: dict, groups: list) -> dict:
             raise Exception(f"Method '{invalid_method}' used in 'groups.throws' is not declared")
         for method in group['methods']:
             methods[method]['throws'].extend(group['exceptions'])
-    return methods
-
-
-def __put_name(methods: dict) -> dict:
-    for name, detail in methods.items():
-        detail['name'] = name
     return methods
 
 
