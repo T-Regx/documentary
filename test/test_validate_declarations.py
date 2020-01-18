@@ -30,7 +30,7 @@ class DefaultsDeclarationsTest(TestCase):
                 "param": {
                     "pattern": "string",
                     "subject": "string",
-                    "flags": {'flags': ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]},
+                    "flags": {'bit-sum': ["PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]},
                     "matches": ["string[]", "optional", "&ref"],
                     "offset": ["int", "optional", "&ref"]
                 },
@@ -42,7 +42,7 @@ class DefaultsDeclarationsTest(TestCase):
                     "subject": "string",
                     "matches": ["array[]", "optional", "&ref"],
                     "flags": {
-                        'flags': [
+                        'bit-sum': [
                             "PREG_PATTERN_ORDER", "PREG_SET_ORDER", "PREG_OFFSET_CAPTURE", "PREG_UNMATCHED_AS_NULL"]
                     },
                     "offset": ["int", "optional", "&ref"]

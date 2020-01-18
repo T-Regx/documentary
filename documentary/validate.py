@@ -54,7 +54,7 @@ def declarations_schema() -> Schema:
                         And(list, Use(_valid_param_array_declaration)),
                         {},
                         {
-                            'flags': And(len, [And(str, __valid_flag)])
+                            'bit-sum': And(len, [And(str, __valid_flag)])
                         },
                         {
                             'type': Or(

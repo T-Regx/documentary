@@ -32,7 +32,7 @@ class DetailsTest(unittest.TestCase):
 
     def test_parse_parameters_dict_flags_as_list(self):
         # given
-        declarations = {'str_replace': {'param': {'text': {'flags': ['FLAG_ONE']}}}}
+        declarations = {'str_replace': {'param': {'text': {'bit-sum': ['FLAG_ONE']}}}}
 
         # when
         result = build_details(params=declarations)
@@ -51,7 +51,7 @@ class DetailsTest(unittest.TestCase):
                     'p3': ['string[]'],
                     'p4': ['string', 'optional', '&ref'],
                     'p5': ['string', '&ref'],
-                    'p6': {'flags': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']}
+                    'p6': {'bit-sum': ['FLAG_ONE', 'FLAG_TWO', 'FLAG_THREE']}
                 }
             }
         }
@@ -99,7 +99,7 @@ class DetailsTest(unittest.TestCase):
 
     def test_parse_parameters_list_single_flat(self):
         # given
-        declarations = {'str_replace': {'param': {'flags': {'flags': ['FLAG_SINGLE']}}}}
+        declarations = {'str_replace': {'param': {'flags': {'bit-sum': ['FLAG_SINGLE']}}}}
 
         # when
         result = build_details(params=declarations)

@@ -141,12 +141,13 @@ def __unravel_param(name: str, param) -> dict:
 
 
 def __unravel_param_dict(name: str, param):
-    if 'flags' in param and param['flags'] is not None:
+    # TODO: Refactor this or extract
+    if 'bit-sum' in param and param['bit-sum'] is not None:
         if 'type' in param and param['type'] is not 'int':
             raise ParameterTypeException(f"Possibly conflicted 'flags' declaration in parameter '{name}'")
-        if any(item for item in param['flags'] if not __is_valid_flag(item)):
+        if any(item for item in param['bit-sum'] if not __is_valid_flag(item)):
             raise ParameterTypeException('Malformed flag')
-        return __param('int', optional=True, ref=False, flags=param['flags'])
+        return __param('int', optional=True, ref=False, flags=param['bit-sum'])
     if 'type' not in param:
         raise ParameterTypeException('No type parameter')
     if not __is_valid_type(param['type']):
@@ -165,13 +166,6 @@ def __unravel_param_list(name: str, param: list) -> dict:
     if "&ref" in param:
         d['ref'] = True
         param.remove('&ref')
-    if name == 'flags' and not _any_types(param):
-        if len(param) == 0:
-            raise ParameterTypeException("Parameter 'flags' is empty")
-        d['type'] = 'int'
-        d['optional'] = True
-        d['flags'] = param
-        return d
     if len(param) == 0:
         raise ParameterTypeException('No type parameter')
     if _only_types(param):
