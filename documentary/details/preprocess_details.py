@@ -22,13 +22,24 @@ def build_details(summaries: dict = None, params: dict = None, links: dict = Non
     declarations(params) if params else {}
     decorations(links) if links else {}
 
-    summaries = __populate_consts(__put_name(__inherit(summaries or {})))
-    params = __polyfill_params(__unravel_params(__inherit(params or {})))
-    groups = __decorations_process_throws_groups(
-        __decorations_process_see_groups(__decorations_append_global_decorations(links or {})))
-    links = __decorations_move_manual_to_link(groups['methods'])
+    return merge_dictionaries(
+        [build_params(params or {}), build_links(links or {}), build_summaries(summaries or {})],
+        allow_override=False)
 
-    return merge_dictionaries([params, links, summaries], False)
+
+def build_summaries(summaries: dict) -> dict:
+    return __populate_consts(__put_name(__inherit(summaries)))
+
+
+def build_params(params: dict) -> dict:
+    return __polyfill_params(__unravel_params(__inherit(params)))
+
+
+def build_links(links: dict) -> dict:
+    link = __decorations_append_global_decorations(links)
+    link = __decorations_process_see_groups(link)
+    link = __decorations_process_throws_groups(link)
+    return __decorations_move_manual_to_link(link['methods'])
 
 
 def __polyfill_params(declaration: dict) -> dict:

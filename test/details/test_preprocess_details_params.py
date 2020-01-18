@@ -2,7 +2,7 @@ import unittest
 
 from schema import SchemaError
 
-from preprocess_details import build_details, ParameterTypeException
+from documentary.details.preprocess_details import build_details, ParameterTypeException
 
 
 class DetailsTest(unittest.TestCase):
