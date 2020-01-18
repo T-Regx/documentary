@@ -54,3 +54,39 @@ class DetailsTest(unittest.TestCase):
 
         # then
         self.assertEqual(result, {})
+
+    def test_join_global_with_empty(self):
+        # given
+        decorations = {
+            'methods': {'foo': {}, 'bar': {}, 'lorem': {}},
+            'groups': {'see': [['foo', 'bar', 'lorem']]},
+            '*': {
+                'see': ['one'],
+                'link': ['two'],
+                'throws': ['three'],
+            }
+        }
+
+        # when
+        result = build_details(links=decorations)
+
+        # then
+        self.assertEqual(second=result, first={
+            'foo': {
+                'see': ['one', 'bar', 'lorem'],
+                'link': ['two'],
+                'throws': ['three']
+            },
+
+            'bar': {
+                'see': ['one', 'foo', 'lorem'],
+                'link': ['two'],
+                'throws': ['three']
+            },
+
+            'lorem': {
+                'see': ['one', 'foo', 'bar'],
+                'link': ['two'],
+                'throws': ['three']
+            }
+        })

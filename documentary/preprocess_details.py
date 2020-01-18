@@ -42,11 +42,16 @@ def __decorations_append_global_decorations(decoration: dict) -> dict:
     if '*' in decoration:
         asterisk = decoration['*']
         for method in decoration['methods'].values():
-            method['see'].extend(asterisk['see'])
-            method['link'].extend(asterisk['link'])
-            method['throws'].extend(asterisk['throws'])
-
+            __put_or_extend(method, 'see', asterisk['see'])
+            __put_or_extend(method, 'link', asterisk['link'])
+            __put_or_extend(method, 'throws', asterisk['throws'])
     return decoration
+
+
+def __put_or_extend(method: dict, key: hash, values: list) -> None:
+    if key not in method:
+        method[key] = []
+    method[key].extend(values)
 
 
 def __decorations_move_manual_to_link(declaration: dict) -> dict:
