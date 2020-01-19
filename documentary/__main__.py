@@ -9,9 +9,9 @@ def document(documentary_path: str, template_path: str, class_path: str) -> None
         documentary=documentary_path,
         filename=template_path,
         output=template_path,
-        definitions=path.join(class_path, 'definitions.json'),
+        definitions=path.join(class_path, 'definition.json'),
         declaration=path.join(class_path, 'declaration.json'),
-        decorations=path.join(class_path, 'decorations.json'),
+        decorations=path.join(class_path, 'decoration.json'),
         fragments=(path.join(class_path, 'fragments')),
         include_template_tag=True,
     )

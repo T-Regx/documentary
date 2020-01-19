@@ -19,8 +19,8 @@ class EndToEndTest(TestCase):
             document_file(
                 documentary=documentary,
                 declaration=join(documentary, class_path, 'declaration.json'),
-                decorations=join(documentary, class_path, 'decorations.json'),
-                definitions=join(documentary, class_path, 'definitions.json'),
+                decorations=join(documentary, class_path, 'decoration.json'),
+                definitions=join(documentary, class_path, 'definition.json'),
                 fragments=join(documentary, class_path, 'fragments'),
                 filename='resources/input/SafeRegex/preg.php',
                 output=tmp.join('preg.php'),
