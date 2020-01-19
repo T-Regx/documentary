@@ -5,10 +5,10 @@ from .utils import interlace, flatmap
 def print_method(details: dict,
                  format_method: callable,
                  param_mapper: callable,
-                 method_mapper: callable,
+                 definition_fallback: callable,
                  include_template_tag: bool,
                  indent: int) -> str:
-    sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, method_mapper)
+    sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, definition_fallback)
 
     return replace_template_strings(
         string=__comment_as_lines(__join_sections(sections), indent),
@@ -19,10 +19,10 @@ def render_comment_as_parts(details: dict,
                             format_method: callable,
                             include_template_tag: bool,
                             param_mapper: callable,
-                            method_mapper: callable) -> list:
+                            definition_fallback: callable) -> list:
     return [
         {'{{@documentary:{}}}'.format(details['name'])} if include_template_tag else [],
-        [__norm(details['definition'])] if details['definition'] is not None else method_mapper().splitlines(),
+        [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
         _format_throws(details['throws']),
