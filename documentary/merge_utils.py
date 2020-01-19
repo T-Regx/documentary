@@ -13,12 +13,12 @@
 # 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-import collections
 import json
+from collections import Mapping
 
 
 def merge_dictionaries(dictionaries: list, allow_override: bool = True) -> dict:
-    if len(dictionaries) == 0:
+    if not len(dictionaries):
         return {}
     if len(dictionaries) == 1:
         return dictionaries[0]
@@ -30,8 +30,7 @@ def merge_dictionaries(dictionaries: list, allow_override: bool = True) -> dict:
 
 def __dict_merge(dictionary: dict, copy_from: dict, allow_override: bool = True) -> None:
     for k, v in copy_from.items():
-        if (k in dictionary and isinstance(dictionary[k], dict)
-                and isinstance(copy_from[k], collections.Mapping)):
+        if k in dictionary and isinstance(dictionary[k], dict) and isinstance(copy_from[k], Mapping):
             __dict_merge(dictionary[k], copy_from[k])
         else:
             if not allow_override and k in dictionary:
