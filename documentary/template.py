@@ -1,5 +1,5 @@
 from .files import fragment_fallback, fragment
-from .format_comment import print_method, format_preg_method
+from .format_comment import format_comment, format_preg_method
 from .placeholder import populate
 
 
@@ -13,7 +13,7 @@ def bootstrap(details: dict, documentary: str, fragments: str, include_template_
 
 
 def details_as_comment(details: dict, method_name: str, indent: int, documentary: str, fragments: str, include_template_tag: bool) -> str:
-    return print_method(
+    return format_comment(
         details=details[method_name],
         format_method=lambda x: format_preg_method(x) if x in details else x,
         param_mapper=lambda p: fragment_fallback(fragments, f"{method_name}.param.{p}", f'param.{p}', documentary),

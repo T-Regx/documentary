@@ -2,12 +2,12 @@ from .markup import replace_template_strings
 from .utils import interlace
 
 
-def print_method(details: dict,
-                 format_method: callable,
-                 param_mapper: callable,
-                 definition_fallback: callable,
-                 include_template_tag: bool,
-                 indent: int) -> str:
+def format_comment(details: dict,
+                   format_method: callable,
+                   param_mapper: callable,
+                   definition_fallback: callable,
+                   include_template_tag: bool,
+                   indent: int) -> str:
     sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, definition_fallback)
 
     return replace_template_strings(

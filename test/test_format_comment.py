@@ -1,6 +1,6 @@
 import unittest
 
-from documentary.format_comment import print_method, format_preg_method
+from documentary.format_comment import format_comment, format_preg_method
 
 
 class FormatTest(unittest.TestCase):
@@ -221,7 +221,7 @@ class FormatTest(unittest.TestCase):
                       method_mapper=lambda: '',
                       throws=None,
                       include_template=False):
-        return print_method(
+        return format_comment(
             details={
                 'name': name,
                 'definition': definition,
