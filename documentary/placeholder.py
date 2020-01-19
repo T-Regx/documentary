@@ -1,15 +1,19 @@
 import re
 
 
-def populate(content: str, replacement: callable) -> str:
+def populate(template: str, replacement: callable) -> str:
     def repl(match):
         if '//' in match[1]:
             return match[0]
         if match['method']:
-            return replacement(match['method'], len(match[1]))
+            replace = replacement(match['method'], len(match[1]))
+            if type(replace) is str:
+                return replace
+            if replace is not None:
+                raise TypeError('Invalid replacement type')
         return match[0]
 
-    return sub(content, repl)
+    return sub(template, repl)
 
 
 def sub(string: str, repl: callable) -> str:

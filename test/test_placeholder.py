@@ -1,6 +1,6 @@
 import unittest
 
-from placeholder import populate
+from documentary.placeholder import populate
 
 
 class PlaceholderTest(unittest.TestCase):
@@ -140,3 +140,24 @@ Replaced
         self.assertEqual(first=string,
                          second=populate(string, lambda _, __: ''),
                          msg="Failed to assert that malformed placeholder was ignored")
+
+    def test_ignore_placeholder_if_replacement_is_none(self):
+        # given
+        string = self.given_document()
+
+        # when
+        result = populate(string, lambda _, __: None)
+
+        # then
+        self.assertEqual(string, result)
+
+    def test_should_raise_for_invalid_replacement(self):
+        # given
+        string = self.given_document()
+
+        # when
+        with self.assertRaises(TypeError) as error:
+            populate(string, lambda _, __: 2)
+
+        # then
+        self.assertEqual(str(error.exception), 'Invalid replacement type')
