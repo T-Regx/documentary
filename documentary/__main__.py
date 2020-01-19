@@ -30,7 +30,7 @@ def main():
         return
 
     if not path.exists(class_path):
-        print('File "{}" is missing in documentary folder'.format(path.normpath(args.template)))
+        print('Directory "{}" is missing in documentary folder'.format(path.normpath(args.template)))
         return
 
     if not path.exists(template_path):
