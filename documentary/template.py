@@ -1,8 +1,7 @@
-import re
-
-from documentary.details.preprocess_details import load_details
-from documentary.files import map_file, fragment_fallback, fragment, MissingFragmentException
-from documentary.format_comment import print_method, format_preg_method
+from .details.preprocess_details import load_details
+from .files import map_file, fragment_fallback, fragment, MissingFragmentException
+from .format_comment import print_method, format_preg_method
+from .placeholder import populate
 
 
 def document_file(documentary: str,
@@ -22,7 +21,7 @@ def document_file(documentary: str,
     return map_file(
         template,
         output,
-        mapper=lambda content: populate_template_placeholder(content, map_template=printer.print))
+        mapper=lambda content: populate(content, replacement=printer.print))
 
 
 class Printer:
@@ -46,15 +45,3 @@ class Printer:
             return self.render_fragment(method_name)
         except MissingFragmentException as e:
             raise e
-
-
-def populate_template_placeholder(content: str, map_template: callable) -> str:
-    def repl(match):
-        if match['method']:
-            return map_template(match['method'], len(match[1]))
-        return match[0]
-
-    return re.sub(r"^([^#\n]+)(?<!/)/\*\*[\s*]*{@documentary:(?P<method>\w+)}.*?\*/",
-                  repl,
-                  content,
-                  flags=re.MULTILINE | re.DOTALL)
