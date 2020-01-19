@@ -22,7 +22,7 @@ class EndToEndTest(TestCase):
                 decorations=join(documentary, class_path, 'decorations.json'),
                 definitions=join(documentary, class_path, 'definitions.json'),
                 fragments=join(documentary, class_path, 'fragments'),
-                template='resources/input/SafeRegex/preg.php',
+                filename='resources/input/SafeRegex/preg.php',
                 output=tmp.join('preg.php'),
                 include_template_tag=True,
             )

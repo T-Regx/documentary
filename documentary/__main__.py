@@ -7,7 +7,7 @@ from documentary.document import document_file
 def document(documentary_path: str, template_path: str, class_path: str) -> None:
     documented = document_file(
         documentary=documentary_path,
-        template=template_path,
+        filename=template_path,
         output=template_path,
         definitions=path.join(class_path, 'definitions.json'),
         declaration=path.join(class_path, 'declaration.json'),

@@ -1,8 +1,8 @@
 import os
 
 
-def map_file(template: str, output: str, mapper: callable) -> bool:
-    with open(template, "r") as file:
+def map_file(filename: str, output: str, mapper: callable) -> bool:
+    with open(filename, "r") as file:
         content = file.read()
 
     _create_directory_for_file(output)

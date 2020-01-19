@@ -5,7 +5,7 @@ from .template import render_template
 
 
 def document_file(documentary: str,
-                  template: str,
+                  filename: str,
                   output: str,
                   definitions: str,
                   declaration: str,
@@ -20,4 +20,4 @@ def document_file(documentary: str,
     def mapper(content: str) -> str:
         return populate(content, repl)
 
-    return map_file(template, output, mapper)
+    return map_file(filename, output, mapper)
