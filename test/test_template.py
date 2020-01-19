@@ -1,7 +1,7 @@
 from os.path import join
 from unittest import TestCase
 
-from documentary.template import render_template
+from documentary.template import bootstrap
 
 
 class TemplateTest(TestCase):
@@ -24,13 +24,14 @@ class TemplateTest(TestCase):
         }
 
         # then
-        self.assertRendersTemplateForMethod(details, 'method', """/**
- * {@documentary:method}
- *
- * Summary.
- *
- * @return int amount
- */""")
+        self.assertRendersTemplateForMethod(details, """
+        /**
+         * {@documentary:method}
+         *
+         * Summary.
+         *
+         * @return int amount
+         */""")
 
     def test_missing_definition(self):
         # given
@@ -48,11 +49,12 @@ class TemplateTest(TestCase):
         }
 
         # then
-        self.assertRendersTemplateForMethod(details, 'method', """/**
- * {@documentary:method}
- *
- * @return int amount
- */""")
+        self.assertRendersTemplateForMethod(details, """
+        /**
+         * {@documentary:method}
+         *
+         * @return int amount
+         */""")
 
     def test_missing_return(self):
         # given
@@ -70,19 +72,31 @@ class TemplateTest(TestCase):
         }
 
         # then
-        self.assertRendersTemplateForMethod(details, 'method', """/**
- * {@documentary:method}
- *
- * Summary.
- */""")
+        self.assertRendersTemplateForMethod(details, """ /**
+  * {@documentary:method}
+  *
+  * Summary.
+  */""")
 
-    def assertRendersTemplateForMethod(self, details: dict, method_name: str, expected: str):
+    def test_ignores_undocumented_method(self):
         # given
-        documentary = 'resources/input/documentary'
-        class_path = 'SafeRegex/preg.php'
-
-        # when
-        actual = render_template(details, method_name, 0, documentary, join(documentary, class_path, 'fragments'), True)
+        details = {}
 
         # then
-        self.assertEqual(expected, actual)
+        self.assertRendersTemplateForMethod(details, """
+ /**
+  * {@documentary:method}
+  */
+  """)
+
+    def assertRendersTemplateForMethod(self, details: dict, content: str):
+        # given
+        actual = self.render_document(details, content)
+
+        # then
+        self.assertEqual(content, actual)
+
+    def render_document(self, details: dict, content: str) -> str:
+        documentary = 'resources/input/documentary'
+        template = bootstrap(details, documentary, join(documentary, 'SafeRegex/preg.php', 'fragments'), True)
+        return template(content)

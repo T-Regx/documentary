@@ -1,9 +1,18 @@
 from .files import fragment_fallback, fragment
 from .format_comment import print_method, format_preg_method
+from .placeholder import populate
 
 
-def render_template(details: dict, method_name: str, indent: int, documentary: str, fragments: str,
-                    include_template_tag: bool) -> str:
+def bootstrap(details: dict, documentary: str, fragments: str, include_template_tag: bool) -> callable:
+    def repl(method_name: str, indent: int):
+        if method_name not in details:
+            return None
+        return details_as_comment(details, method_name, indent, documentary, fragments, include_template_tag)
+
+    return lambda template: populate(template, repl)
+
+
+def details_as_comment(details: dict, method_name: str, indent: int, documentary: str, fragments: str, include_template_tag: bool) -> str:
     return print_method(
         details=details[method_name],
         format_method=lambda x: format_preg_method(x) if x in details else x,
