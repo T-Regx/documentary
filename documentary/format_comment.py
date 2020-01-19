@@ -25,7 +25,7 @@ def render_comment_as_parts(details: dict,
         [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
         [line for lines in _format_params(details['param'], param_mapper) for line in lines],
         _format_return(details['return'], details['return-type']),
-        _format_throws(details['throws']),
+        ['@throws ' + exception for exception in (details['throws'])],
         ['@see ' + format_method(see) for see in details['see']],
         ['@link ' + link for link in details['link']],
     ]
@@ -112,10 +112,6 @@ def __valid_return(values, types):
         if type(types) is list:
             return [*values.keys()] == types
     return type(values) is str and type(types) is str
-
-
-def _format_throws(exceptions: list) -> list:
-    return [f'@throws {exception}' for exception in exceptions]
 
 
 def __norm(text: str) -> str:
