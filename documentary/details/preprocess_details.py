@@ -2,25 +2,30 @@ import json
 import re
 from collections import OrderedDict
 
+from documentary import validate
 from documentary.merge_utils import merge_dictionaries
 from documentary.utils import first
-from documentary.validate import declarations, decorations, definitions
 
 
-def load_details(declaration: str, decorations: str, definitions: str) -> dict:
-    with open(definitions) as definitions_file:
-        with open(declaration) as declaration_file:
-            with open(decorations) as decorations_file:
-                return build_details(
-                    json.load(definitions_file, object_pairs_hook=OrderedDict),
-                    json.load(declaration_file, object_pairs_hook=OrderedDict),
-                    json.load(decorations_file, object_pairs_hook=OrderedDict))
+def load_details(definitions: str, declaration: str, decorations: str) -> dict:
+    return build_details(
+        _load_file_or_default(definitions),
+        _load_file_or_default(declaration),
+        _load_file_or_default(decorations))
+
+
+def _load_file_or_default(filename: str, default=None) -> dict:
+    try:
+        with open(filename) as file:
+            return json.load(file, object_pairs_hook=OrderedDict)
+    except FileNotFoundError:
+        return default
 
 
 def build_details(summaries: dict = None, params: dict = None, links: dict = None) -> dict:
-    definitions(summaries) if summaries else {}
-    declarations(params) if params else {}
-    decorations(links) if links else {}
+    validate.definitions(summaries) if summaries else {}
+    validate.declarations(params) if params else {}
+    validate.decorations(links) if links else {}
 
     dictionaries = merge_dictionaries(
         [build_params(params or {}), build_links(links or {}), build_summaries(summaries or {})], allow_override=False)

@@ -7,12 +7,12 @@ from .template import render_template
 def document_file(documentary: str,
                   template: str,
                   output: str,
+                  definitions: str,
                   declaration: str,
                   decorations: str,
-                  definitions: str,
                   fragments: str,
                   include_template_tag: bool) -> bool:
-    details = load_details(declaration, decorations, definitions)
+    details = load_details(definitions, declaration, decorations)
 
     def repl(method_name: str, indent: int) -> str:
         return render_template(details, method_name, indent, documentary, fragments, include_template_tag)

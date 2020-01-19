@@ -1,6 +1,7 @@
 import os
 from shutil import rmtree
 from tempfile import mkdtemp
+from typing import Union
 
 
 def directory():
@@ -20,9 +21,12 @@ class _Handle:
     def __init__(self, test_dir: str):
         self.test_dir = test_dir
 
-    def store(self, filenames: list, content: str):
-        folder, _ = os.path.split(self.join(*filenames))
-        os.makedirs(folder)
+    def store(self, filenames: Union[list, str], content: str):
+        if type(filenames) is str:
+            filenames = [filenames]
+        if len(filenames) > 1:
+            folder, _ = os.path.split(self.join(*filenames))
+            os.makedirs(folder)
         with open(self.join(*filenames), 'w') as file:
             file.write(content)
 
