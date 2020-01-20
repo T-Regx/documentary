@@ -34,8 +34,10 @@ def fragment_fallback(path: str, filename: str, second_filename: str, documentar
     return method_param()
 
 
-def fragment(path: str, filename: str) -> str:
+def fragment(path: str, filename: str, default: callable = None) -> str:
     def missing_fragment():
+        if default:
+            return default()
         raise MissingFragmentException(filename)
 
     return __fragment_or(path, filename, missing_fragment)

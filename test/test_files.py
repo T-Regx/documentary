@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from documentary.files import fragment_fallback
+from documentary.files import fragment_fallback, MissingFragmentException, fragment
 from test.tmpdir import directory
 
 
@@ -38,3 +38,16 @@ class FormatTest(TestCase):
 
             # then
             self.assertEqual(result, "Global")
+
+    def test_should_raise_for_missing_fragment(self):
+        with directory() as tmp:
+            # then
+            self.assertRaises(MissingFragmentException, lambda: fragment(tmp.join('folder'), 'missing'))
+
+    def test_should_return_default_for_missing_fragment(self):
+        with directory() as tmp:
+            # when
+            result = fragment(tmp.join('folder'), 'missing', default=lambda: 'returned')
+
+            # then
+            self.assertEqual('returned', result)

@@ -21,7 +21,7 @@ def render_comment_as_parts(details: dict,
                             param_mapper: callable,
                             definition_fallback: callable) -> list:
     return [
-        {'{{@documentary:{}}}'.format(details['name'])} if include_template_tag else [],
+        ['{{@documentary:{}}}'.format(details['name'])] if include_template_tag else [],
         [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
         flatmap(_format_params(details['param'], param_mapper)),
         _format_return(details['return'], details['return-type']),
