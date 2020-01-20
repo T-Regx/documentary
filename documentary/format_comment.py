@@ -1,5 +1,5 @@
 from .markup import replace_template_strings
-from .utils import interlace, flatmap
+from .utils import interlace
 
 
 def print_method(details: dict,
@@ -23,7 +23,7 @@ def render_comment_as_parts(details: dict,
     return [
         ['{{@documentary:{}}}'.format(details['name'])] if include_template_tag else [],
         [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
-        flatmap(_format_params(details['param'], param_mapper)),
+        [line for lines in _format_params(details['param'], param_mapper) for line in lines],
         _format_return(details['return'], details['return-type']),
         _format_throws(details['throws']),
         ['@see ' + format_method(see) for see in details['see']],
