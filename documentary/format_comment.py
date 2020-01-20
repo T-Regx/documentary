@@ -73,6 +73,8 @@ def __join_array(param) -> str:
 
 
 def _format_return(values, types):
+    if values is None and types is None:
+        return []
     if not __valid_return(values, types):
         raise Exception("Mismatched declaration and definition return types")
     v = __format_return_value(values)

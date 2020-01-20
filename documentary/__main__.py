@@ -1,7 +1,7 @@
 from os import path, getcwd
 
 from documentary.args import parse_args
-from documentary.template import document_file
+from documentary.document import document_file
 
 
 def document(documentary_path: str, template_path: str, class_path: str) -> None:

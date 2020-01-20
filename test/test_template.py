@@ -1,32 +1,88 @@
 from os.path import join
 from unittest import TestCase
 
-from documentary.template import document_file
-from test.tmpdir import directory
+from documentary.template import render_template
 
 
-class EndToEndTest(TestCase):
+class TemplateTest(TestCase):
     def setUp(self) -> None:
         self.maxDiff = 65513
 
     def test(self):
-        with directory() as tmp:
-            # given
-            documentary = 'resources/input/documentary'
-            class_path = 'SafeRegex/preg.php'
+        # given
+        details = {
+            'method': {
+                'name': 'method',
+                'definition': 'Summary',
+                'param': {},
+                'return': 'amount',
+                'return-type': 'int',
+                'throws': [],
+                'see': [],
+                'link': [],
+            }
+        }
 
-            # when
-            document_file(
-                documentary=documentary,
-                declaration=join(documentary, class_path, 'declaration.json'),
-                decorations=join(documentary, class_path, 'decorations.json'),
-                definitions=join(documentary, class_path, 'definitions.json'),
-                fragments=join(documentary, class_path, 'fragments'),
-                template='resources/input/SafeRegex/preg.php',
-                output=tmp.join('preg.php'),
-                include_template_tag=True,
-            )
+        # then
+        self.assertRendersTemplateForMethod(details, 'method', """/**
+ * {@documentary:method}
+ *
+ * Summary.
+ *
+ * @return int amount
+ */""")
 
-            # then
-            with open('resources/expected/preg.php', 'r') as expected:
-                self.assertEqual(expected.read(), tmp.open('preg.php'))
+    def test_missing_definition(self):
+        # given
+        details = {
+            'method': {
+                'name': 'method',
+                'definition': None,
+                'param': {},
+                'return': 'amount',
+                'return-type': 'int',
+                'throws': [],
+                'see': [],
+                'link': [],
+            }
+        }
+
+        # then
+        self.assertRendersTemplateForMethod(details, 'method', """/**
+ * {@documentary:method}
+ *
+ * @return int amount
+ */""")
+
+    def test_missing_return(self):
+        # given
+        details = {
+            'method': {
+                'name': 'method',
+                'definition': 'Summary',
+                'param': {},
+                'return': None,
+                'return-type': None,
+                'throws': [],
+                'see': [],
+                'link': [],
+            }
+        }
+
+        # then
+        self.assertRendersTemplateForMethod(details, 'method', """/**
+ * {@documentary:method}
+ *
+ * Summary.
+ */""")
+
+    def assertRendersTemplateForMethod(self, details: dict, method_name: str, expected: str):
+        # given
+        documentary = 'resources/input/documentary'
+        class_path = 'SafeRegex/preg.php'
+
+        # when
+        actual = render_template(details, method_name, 0, documentary, join(documentary, class_path, 'fragments'), True)
+
+        # then
+        self.assertEqual(expected, actual)
