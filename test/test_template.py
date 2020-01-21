@@ -26,7 +26,7 @@ class TemplateTest(TestCase):
         # then
         self.assertRendersTemplateForMethod(details, """
         /**
-         * {@documentary:method}
+         * {documentary:method}
          *
          * Summary.
          *
@@ -51,7 +51,7 @@ class TemplateTest(TestCase):
         # then
         self.assertRendersTemplateForMethod(details, """
         /**
-         * {@documentary:method}
+         * {documentary:method}
          *
          * @return int amount
          */""")
@@ -73,7 +73,7 @@ class TemplateTest(TestCase):
 
         # then
         self.assertRendersTemplateForMethod(details, """ /**
-  * {@documentary:method}
+  * {documentary:method}
   *
   * Summary.
   */""")
@@ -85,7 +85,7 @@ class TemplateTest(TestCase):
         # then
         self.assertRendersTemplateForMethod(details, """
  /**
-  * {@documentary:method}
+  * {documentary:method}
   */
   """)
 

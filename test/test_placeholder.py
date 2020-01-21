@@ -43,7 +43,7 @@ Replaced
         return """
         Some text
         /**
-         * {@documentary:input_parameter}
+         * {documentary:input_parameter}
          *
          * Foo Bar
          */
@@ -53,41 +53,41 @@ Replaced
     def test_ignore_param_missing(self):
         self.assertIgnoresPlaceholder("""
         /**
-         * {@documentary:}
+         * {documentary:}
          */
         """)
 
     def test_ignore_param_syntax_error(self):
         self.assertIgnoresPlaceholder("""
         /**
-         * {@documentary:!@#}
+         * {documentary:!@#}
          */
         """)
 
     def test_ignore_placeholder_unclosed(self):
         self.assertIgnoresPlaceholder("""
         /**
-         * {@documentary:work}
+         * {documentary:work}
         """)
 
     def test_ignore_commented_out_with_hash(self):
         self.assertIgnoresPlaceholder("""
     #   /**
-         * {@documentary:work}
+         * {documentary:work}
          */
         """)
 
     def test_ignore_commented_out_with_double_slash(self):
         self.assertIgnoresPlaceholder("""
        //**
-         * {@documentary:work}
+         * {documentary:work}
          */
         """)
 
     def test_ignore_commented_out_with_double_slash_2(self):
         self.assertIgnoresPlaceholder("""
     //  /**
-         * {@documentary:work}
+         * {documentary:work}
          */
         """)
 
@@ -102,7 +102,7 @@ Replaced
         self.assertIgnoresPlaceholder("""
         /**
          * asd
-         * {@documentary:work}
+         * {documentary:work}
          */
         """)
 
@@ -111,7 +111,7 @@ Replaced
         string = """
     #
         /**
-         * {@documentary:work}
+         * {documentary:work}
          */
         """
 
@@ -125,7 +125,7 @@ Replaced
         # given
         string = """
         /**
-         * {@documentary:work}
+         * {documentary:work}
          */
          */
         """

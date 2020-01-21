@@ -6,7 +6,7 @@ use TRegx\SafeRegex\Constants\PregConstants;
 interface preg
 {
     /**
-     * {@documentary:match}
+     * {documentary:match}
      *
      * Performs a single regular expression match. Retrieves only the first matched occurrence.
      *
@@ -35,7 +35,7 @@ interface preg
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0);
 
     /**
-     * {@documentary:match_all}
+     * {documentary:match_all}
      *
      * Performs a global regular expression match.
      *
@@ -64,7 +64,7 @@ interface preg
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0);
 
     /**
-     * {@documentary:replace}
+     * {documentary:replace}
      *
      * Performs a regular expression search and replace.
      *
@@ -100,7 +100,7 @@ interface preg
     public static function replace($pattern, $replacement, $subject, $limit = -1, &$count = null);
 
     /**
-     * {@documentary:replace_callback}
+     * {documentary:replace_callback}
      *
      * Performs a regular expression search and replace.
      *
@@ -136,7 +136,7 @@ interface preg
     public static function replace_callback($pattern, callable $callback, $subject, $limit = -1, &$count = null);
 
     /**
-     * {@documentary:replace_callback_array}
+     * {documentary:replace_callback_array}
      *
      * Performs a regular expression search and replace.
      *
@@ -172,7 +172,7 @@ interface preg
     private static function decorateCallback(string $methodName, $callback);
 
     /**
-     * {@documentary:filter}
+     * {documentary:filter}
      *
      * Performs a regular expression search and replace.
      *
@@ -207,7 +207,7 @@ interface preg
     public static function filter($pattern, $replacement, $subject, $limit = -1, &$count = null);
 
     /**
-     * {@documentary:split}
+     * {documentary:split}
      *
      * Splits string by a regular expression.
      *
@@ -246,7 +246,7 @@ interface preg
     public static function split($pattern, $subject, $limit = -1, $flags = 0);
 
     /**
-     * {@documentary:grep}
+     * {documentary:grep}
      *
      * Filters array entries that match the pattern.
      *
@@ -273,7 +273,7 @@ interface preg
     public static function grep($pattern, array $input, $flags = 0): array;
 
     /**
-     * {@documentary:grep_keys}
+     * {documentary:grep_keys}
      *
      * Filters array entries with keys that match the pattern.
      *
@@ -299,7 +299,7 @@ interface preg
     public static function grep_keys($pattern, array $input, $flags = 0): array;
 
     /**
-     * {@documentary:quote}
+     * {documentary:quote}
      *
      * <p>
      *   Puts a backslash in <i>string</i>, before every character, that is a part of the regular expression
@@ -334,7 +334,7 @@ interface preg
     public static function quote($string, $delimiter = null): string;
 
     /**
-     * {@documentary:last_error}
+     * {documentary:last_error}
      *
      * Returns the error code of the last <b>preg_*()</b> method execution (as int).
      *
@@ -352,7 +352,7 @@ interface preg
     public static function last_error(): int;
 
     /**
-     * {@documentary:last_error_constant}
+     * {documentary:last_error_constant}
      *
      * Returns the error name of the last <b>preg_*()</b> method execution (as string).
      *
@@ -370,7 +370,7 @@ interface preg
     public static function last_error_constant(): string;
 
     /**
-     * {@documentary:error_constant}
+     * {documentary:error_constant}
      *
      * Returns the error name for a given error code.
      *
