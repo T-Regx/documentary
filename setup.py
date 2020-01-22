@@ -4,7 +4,8 @@ from setuptools import setup, find_packages
 from version import get_and_increment
 
 setup(name='Documentary',
-      version='1.0.0-{}'.format(get_and_increment()),
+      python_requires='~=3.6',
+      version='1.0.0.post{}'.format(get_and_increment()),
       description='Tool for creating concise, complex phpDoc',
       license='MIT',
       packages=find_packages(),

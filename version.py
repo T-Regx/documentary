@@ -1,5 +1,4 @@
-
-def get_and_increment() -> int:
+def get_and_increment():
     try:
         with open('version', 'r+') as file:
             version = int(file.read()) + 1
