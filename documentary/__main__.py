@@ -1,21 +1,7 @@
 from os import path, getcwd
 
 from documentary.args import parse_args
-from documentary.document import document_file
-
-
-def document(documentary_path: str, template_path: str, class_path: str) -> None:
-    documented = document_file(
-        documentary=documentary_path,
-        filename=template_path,
-        output=template_path,
-        definitions=path.join(class_path, 'definition.json'),
-        declaration=path.join(class_path, 'declaration.json'),
-        decorations=path.join(class_path, 'decoration.json'),
-        fragments=(path.join(class_path, 'fragments')),
-        include_template_tag=True,
-    )
-    print(('Documented file "{}"' if documented else 'File "{}" remains unchanged').format(template_path))
+from documentary.document import document
 
 
 def main():
@@ -37,7 +23,7 @@ def main():
         print('Tried to documentation file "{}", but it doesn\'t exist'.format(template_path))
         return
 
-    document(documentary_path, template_path, class_path)
+    document(documentary_path, template_path, class_path, output_path=template_path)
 
 
 if __name__ == '__main__':

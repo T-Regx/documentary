@@ -1,7 +1,7 @@
 from os.path import join
 from unittest import TestCase
 
-from documentary.document import document_file
+from documentary.document import document
 from test.tmpdir import directory
 
 
@@ -16,16 +16,11 @@ class EndToEndTest(TestCase):
             class_path = 'SafeRegex/preg.php'
 
             # when
-            document_file(
-                documentary=documentary,
-                declaration=join(documentary, class_path, 'declaration.json'),
-                decorations=join(documentary, class_path, 'decoration.json'),
-                definitions=join(documentary, class_path, 'definition.json'),
-                fragments=join(documentary, class_path, 'fragments'),
-                filename='resources/input/SafeRegex/preg.php',
-                output=tmp.join('preg.php'),
-                include_template_tag=True,
-            )
+            document(
+                documentary_path=documentary,
+                template_path='resources/input/SafeRegex/preg.php',
+                class_path=join(documentary, class_path),
+                output_path=tmp.join('preg.php'))
 
             # then
             with open('resources/expected/preg.php', 'r') as expected:
