@@ -37,3 +37,9 @@ class _Handle:
         join = self.join(*filenames)
         with open(join, 'r') as file:
             return file.read()
+
+    def clean(self, *filenames: str) -> list:
+        return [self._clean_single(filename) for filename in filenames]
+
+    def _clean_single(self, filename: str) -> str:
+        return filename[len(self.test_dir):] if filename.startswith(self.test_dir) else filename
