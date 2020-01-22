@@ -1,6 +1,5 @@
-from unittest import TestCase
-
 from documentary.document import document, document_many
+from test.TestCase import TestCase
 from test.resource import resource
 from test.std_io import stubbed_output
 from test.tmpdir import directory
@@ -42,7 +41,7 @@ class EndToEndTest(TestCase):
                 with open(resource('expected/Pattern.php'), 'r') as expected:
                     self.assertEqual(expected.read(), tmp.open('output/src/CleanRegex/Pattern.php'))
 
-                self.assertEqual(second=lines(), first=[
+                self.assertPathsMatch(actual=lines(), expected=[
                     f'Documented file "{resource("input")}/src/SafeRegex/preg.php"',
                     f'Documented file "{resource("input")}/src/CleanRegex/Pattern.php"',
                 ])

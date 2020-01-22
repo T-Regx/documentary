@@ -57,7 +57,7 @@ class FolderTest(TestCase):
             result = discover_templates('src', tmp.join(), documentary=tmp.join('docs'))
 
             # then
-            self.assertCountEqual(actual=result, expected=[
+            self.assertPathsMatch(actual=result, expected=[
                 'src/main/second.py',
                 'src/main/sub/first.py',
                 'src/test/first.py',
