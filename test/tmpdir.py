@@ -24,8 +24,8 @@ class _Handle:
     def store(self, filenames: Union[list, str], content: str):
         if type(filenames) is str:
             filenames = [filenames]
-        if len(filenames) > 1:
-            folder, _ = os.path.split(self.join(*filenames))
+        folder, _ = os.path.split(self.join(*filenames))
+        if not os.path.exists(folder):
             os.makedirs(folder)
         with open(self.join(*filenames), 'w') as file:
             file.write(content)

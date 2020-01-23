@@ -8,7 +8,7 @@ class FormatTest(TestCase):
     def test_should_traverse_fallback(self):
         with directory() as tmp:
             # given
-            tmp.store(['folder', 'first.html'], 'Foo')
+            tmp.store('folder/first.html', 'Foo')
 
             # when
             result = fragment_fallback(tmp.join('folder'), 'first', 'second', tmp.join())
@@ -19,7 +19,7 @@ class FormatTest(TestCase):
     def test_should_traverse_fallback_second(self):
         with directory() as tmp:
             # given
-            tmp.store(['folder', 'second.html'], 'Bar')
+            tmp.store('folder/second.html', 'Bar')
 
             # when
             result = fragment_fallback(tmp.join('folder'), 'first', 'second', tmp.join())
@@ -30,8 +30,8 @@ class FormatTest(TestCase):
     def test_should_traverse_fallback_project(self):
         with directory() as tmp:
             # given
-            tmp.store(['project', 'fragment', 'second.html'], 'Global')
-            tmp.store(['a', 'b', 'c', 'foo.html'], '')
+            tmp.store('project/fragment/second.html', 'Global')
+            tmp.store('a/b/c/foo.html', '')
 
             # when
             result = fragment_fallback(tmp.join('a', 'b', 'c'), 'first', 'second', tmp.join())
