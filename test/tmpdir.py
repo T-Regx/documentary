@@ -30,6 +30,11 @@ class _Handle:
         with open(self.join(*filenames), 'w') as file:
             file.write(content)
 
+    def dir(self, filenames: Union[list, str]):
+        if type(filenames) is str:
+            filenames = [filenames]
+        os.makedirs(self.join(*filenames))
+
     def join(self, *filenames: str):
         return os.path.join(self.test_dir, *filenames)
 
