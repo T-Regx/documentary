@@ -14,14 +14,12 @@ class EndToEndTest(TestCase):
         with directory() as tmp:
             # given
             documentary = resource('input/documentary')
-            class_path = 'SafeRegex/preg.php'
 
             # when
-            document(
-                documentary_path=documentary,
-                template_path=resource('input/SafeRegex/preg.php'),
-                class_path=join(documentary, class_path),
-                output_path=tmp.join('preg.php'))
+            document(documentary_path=documentary,
+                     documentation_path=join(documentary, 'SafeRegex/preg.php'),
+                     template_path=resource('input/SafeRegex/preg.php'),
+                     output_path=tmp.join('preg.php'))
 
             # then
             with open(resource('expected/preg.php'), 'r') as expected:
