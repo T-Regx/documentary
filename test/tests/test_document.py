@@ -1,4 +1,3 @@
-from os.path import join
 from unittest import TestCase
 
 from documentary.document import document
@@ -10,14 +9,11 @@ class EndToEndTest(TestCase):
     def setUp(self) -> None:
         self.maxDiff = 65513
 
-    def test(self):
+    def test_single(self):
         with directory() as tmp:
-            # given
-            documentary = resource('input/documentary')
-
             # when
-            document(documentary_path=documentary,
-                     documentation_path=join(documentary, 'SafeRegex/preg.php'),
+            document(documentary_path=resource('input/documentary'),
+                     documentation_path=resource('input/documentary/SafeRegex/preg.php'),
                      template_path=resource('input/SafeRegex/preg.php'),
                      output_path=tmp.join('preg.php'))
 
