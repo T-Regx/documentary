@@ -1,0 +1,22 @@
+{
+  "methods": {
+    "prepare": {
+      "link": [
+        "http://github.com"
+      ],
+      "throws": [
+        "BaseException"
+      ]
+    }
+  },
+  "*": {
+    "link": [
+      "http://youtube.com"
+    ],
+    "see": [
+    ],
+    "throws": [
+      "GeneralException"
+    ]
+  }
+}

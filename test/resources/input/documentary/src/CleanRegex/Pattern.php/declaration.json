@@ -1,0 +1,18 @@
+{
+  "prepare": {
+    "param": {
+      "input": {
+        "type": {
+          "type": "array",
+          "keys": "int",
+          "values": "callable"
+        }
+      },
+      "flags": [
+        "string",
+        "optional"
+      ]
+    },
+    "return-type": "Pattern"
+  }
+}

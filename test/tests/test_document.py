@@ -13,8 +13,8 @@ class EndToEndTest(TestCase):
         with directory() as tmp:
             # when
             document(documentary_path=resource('input/documentary'),
-                     documentation_path=resource('input/documentary/SafeRegex/preg.php'),
-                     template_path=resource('input/SafeRegex/preg.php'),
+                     documentation_path=resource('input/documentary/src/SafeRegex/preg.php'),
+                     template_path=resource('input/src/SafeRegex/preg.php'),
                      output_path=tmp.join('preg.php'))
 
             # then
