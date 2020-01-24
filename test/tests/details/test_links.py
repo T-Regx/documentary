@@ -53,7 +53,7 @@ class DetailsTest(unittest.TestCase):
         # given
         decorations = {
             'methods': {},
-            'groups': {'see': [['foo', 'bar']]}
+            'groups': {'see': [['other', 'bar']]}
         }
 
         # when
@@ -61,7 +61,7 @@ class DetailsTest(unittest.TestCase):
             build_links(decorations)
 
         # then
-        self.assertEqual(str(error.exception), "Method 'foo' used in 'groups.see' is not declared")
+        self.assertEqual("Method 'other' used in 'groups.see' is not declared", str(error.exception))
 
     def test_asterisk(self):
         # given

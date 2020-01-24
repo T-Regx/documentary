@@ -118,7 +118,7 @@ def __process_see_groups(methods: dict, groups: list) -> dict:
     for group in groups:
         invalid_method = first(group, lambda x: x not in methods)
         if invalid_method:
-            raise Exception(f"Method 'foo' used in 'groups.see' is not declared")
+            raise Exception(f"Method '{invalid_method}' used in 'groups.see' is not declared")
         for method, decoration in methods.items():
             if method in group:
                 decoration['see'].extend([x for x in group if x != method])
