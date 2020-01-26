@@ -68,7 +68,7 @@ def __join_array(param) -> str:
     if type(param) is list:
         return "|".join(param)
     if isinstance(param, dict):
-        return param['values'] + '[]'
+        return f"array<{param['keys']},{param['values']}>"
     raise Exception("Invalid param type")
 
 

@@ -37,7 +37,7 @@ class Pattern
      *   <li>Don't send over the network</li>
      * </ul>
      *
-     * @param callable[] $input This is some hell of a param. It can use <i>flags</i>, an example
+     * @param array<int,callable> $input This is some hell of a param. It can use <i>flags</i>, an example
      * flag is <b>m</b> or <b>D</b>.
      * @param string $flags [optional]
      *

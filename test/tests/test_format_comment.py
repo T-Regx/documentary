@@ -209,6 +209,20 @@ class FormatTest(unittest.TestCase):
      * @return string just a return value
      */""")
 
+    def test_type_array(self):
+        # when
+        result = self._print_method(param={'word': {'type': {"type": "array", "keys": "string", "values": "callable"}}},
+                                    param_mapper=lambda x: 'Foo')
+
+        # then
+        self.assertEqual(second=result, first="""    /**
+     * Just a summary.
+     *
+     * @param array<string,callable> $word Foo
+     *
+     * @return string just a return value
+     */""")
+
     @staticmethod
     def _print_method(name='str_replace',
                       definition='Just a summary',
