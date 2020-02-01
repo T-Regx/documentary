@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import Mock, ANY
 
 from documentary.placeholder import populate
 
@@ -178,3 +179,21 @@ Replaced
 
         # then
         self.assertEqual(str(error.exception), 'Invalid replacement type')
+
+    def test_parses_at_comment_placeholder(self):
+        # given
+        placeholders = {
+            'default': ("/** {documentary:input_parameter} */", '{documentary:input_parameter}'),
+            'mixed': ("/** {@documentary:input_parameter} */", '{@documentary:input_parameter}'),
+            'tag': ("/** @documentary input_parameter */", '@documentary input_parameter'),
+        }
+
+        for name, (placeholder, expected) in placeholders.items():
+            with self.subTest(name):
+                mock = Mock(return_value='')
+
+                # when
+                populate(placeholder, mock)
+
+                # then
+                mock.assert_called_with(ANY, ANY, expected)
