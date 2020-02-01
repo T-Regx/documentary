@@ -1,5 +1,6 @@
 import unittest
-from unittest.mock import Mock, ANY
+from typing import Union
+from unittest.mock import Mock
 
 from documentary.placeholder import populate
 
@@ -180,20 +181,53 @@ Replaced
         # then
         self.assertEqual(str(error.exception), 'Invalid replacement type')
 
-    def test_parses_at_comment_placeholder(self):
+    def test_should_parse_placeholders(self):
         # given
         placeholders = {
-            'default': ("/** {documentary:input_parameter} */", '{documentary:input_parameter}'),
-            'mixed': ("/** {@documentary:input_parameter} */", '{@documentary:input_parameter}'),
-            'tag': ("/** @documentary input_parameter */", '@documentary input_parameter'),
+            'def': ("/** {documentary:foo} */", '{documentary:foo}'),
+            'mix': ("/** {@documentary:foo} */", '{@documentary:foo}'),
+            'tag': ("/** @documentary foo */", '@documentary foo'),
+
+            'def,space': ('/** {documentary:foo} */', '{documentary:foo}'),
+            'mix,space': ('/** {@documentary:foo} */', '{@documentary:foo}'),
+            'tag,space': ('/** @documentary foo */', '@documentary foo'),
         }
 
-        for name, (placeholder, expected) in placeholders.items():
+        for name, (template, expected) in placeholders.items():
             with self.subTest(name):
-                mock = Mock(return_value='')
-
                 # when
-                populate(placeholder, mock)
+                placeholder = self.parse(template)
 
                 # then
-                mock.assert_called_with(ANY, ANY, expected)
+                self.assertIsNotNone(placeholder, msg=f"Failed to assert that template '{template}' is valid")
+                self.assertEqual(expected, placeholder)
+
+    def test_should_not_parse_placeholders(self):
+        malformed_placeholders = {
+            'at,open': '/**{@documentary:a */',
+            'at,closed': '/**@documentary:a}*/',
+            'def,open': '/**{documentary:a */',
+            'def,closed': '/**documentary:a}*/',
+
+            'tag,colon': '/** @documentary:a */',
+            'def,space-in': '/** {documentary a} */',
+            'mix,space-in': '/** {@documentary a} */',
+
+            'malformed,space': '/** documentary a */',
+            'malformed,colon': '/** documentary:a */',
+        }
+
+        for name, template in malformed_placeholders.items():
+            with self.subTest(name):
+                # when
+                self.assertEqual(None, self.parse(template), msg=f"Failed to assert that template '{template}' is invalid")
+
+    def parse(self, template: str) -> Union[None, str]:
+        mock = Mock(return_value='')
+        populate(template, mock)
+        if len(mock.call_args_list) == 0:
+            return None
+        if len(mock.call_args_list) == 1:
+            [((name, indent, template), kwargs)] = mock.call_args_list
+            return template
+        raise Exception()
