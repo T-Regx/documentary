@@ -4,7 +4,7 @@ from .placeholder import populate
 
 
 def bootstrap(details: dict, documentary: str, fragments: str, include_template_tag: bool) -> callable:
-    def repl(method_name: str, indent: int):
+    def repl(method_name: str, indent: int, placeholder: str):
         if method_name not in details:
             return None
         return details_as_comment(details, method_name, indent, documentary, fragments, include_template_tag)
