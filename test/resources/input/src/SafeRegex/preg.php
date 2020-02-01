@@ -11,12 +11,12 @@ interface preg
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0);
 
     /**
-     * {documentary:match_all}
+     * {@documentary:match_all}
      */
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0);
 
     /**
-     * {documentary:replace}
+     * @documentary replace
      */
     public static function replace($pattern, $replacement, $subject, $limit = -1, &$count = null);
 
