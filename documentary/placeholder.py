@@ -17,5 +17,5 @@ def populate(template: str, replacement: callable) -> str:
 
 
 def sub(string: str, repl: callable) -> str:
-    pattern = r"^([^#\n]+)(?<!/)/\*\*[\s*]*(?P<placeholder>{documentary:(?P<method>\w+)}).*?\*/"
+    pattern = r"^([^#\n]*)(?<!/)/\*\*[\s*]*(?P<placeholder>{documentary:(?P<method>\w+)}).*?\*/"
     return re.sub(pattern, repl, string, flags=re.MULTILINE | re.DOTALL)

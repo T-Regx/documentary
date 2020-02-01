@@ -128,6 +128,16 @@ Replaced
         # then
         self.assertEqual(second=result, first="\n    #\nReplaced\n        ")
 
+    def test_replaces_minimal(self):
+        # given
+        string = "/**{documentary:foo}*/"
+
+        # when
+        result = populate(string, lambda *_: 'Replaced')
+
+        # then
+        self.assertEqual(second=result, first="Replaced")
+
     def test_replaces_non_greedy(self):
         # given
         string = """
