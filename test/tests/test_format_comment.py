@@ -1,4 +1,5 @@
 import unittest
+from typing import Union
 
 from documentary.format_comment import format_comment, format_preg_method
 
@@ -17,11 +18,11 @@ class FormatTest(unittest.TestCase):
 
     def test_include_template(self):
         # when
-        result = self._print_method(include_template=True)
+        result = self._print_method(template_tag='Lorem Ipsum')
 
         # then
         self.assertEqual(result, """    /**
-     * {documentary:str_replace}
+     * Lorem Ipsum
      *
      * Just a summary.
      *
@@ -234,7 +235,7 @@ class FormatTest(unittest.TestCase):
                       param_mapper=lambda x: x,
                       method_mapper=lambda: '',
                       throws=None,
-                      include_template=False):
+                      template_tag: Union[str, None] = None):
         return format_comment(
             details={
                 'name': name,
@@ -249,5 +250,5 @@ class FormatTest(unittest.TestCase):
             format_method=lambda x: x,  # untested stuffs
             param_mapper=param_mapper,
             definition_fallback=method_mapper,  # untested stuffs
-            include_template_tag=include_template,
+            template_tag=template_tag,
             indent=4)

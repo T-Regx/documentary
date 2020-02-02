@@ -1,3 +1,5 @@
+from typing import Union
+
 from .markup import replace_template_strings
 from .utils import interlace
 
@@ -6,9 +8,9 @@ def format_comment(details: dict,
                    format_method: callable,
                    param_mapper: callable,
                    definition_fallback: callable,
-                   include_template_tag: bool,
+                   template_tag: Union[str, None],
                    indent: int) -> str:
-    sections = render_comment_as_parts(details, format_method, include_template_tag, param_mapper, definition_fallback)
+    sections = render_comment_as_parts(details, format_method, template_tag, param_mapper, definition_fallback)
 
     return replace_template_strings(
         string=__comment_as_lines(__join_sections(sections), indent),
@@ -17,11 +19,11 @@ def format_comment(details: dict,
 
 def render_comment_as_parts(details: dict,
                             format_method: callable,
-                            include_template_tag: bool,
+                            template_tag: Union[str, None],
                             param_mapper: callable,
                             definition_fallback: callable) -> list:
     return [
-        ['{{documentary:{}}}'.format(details['name'])] if include_template_tag else [],
+        [template_tag] if template_tag else [],
         [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
         [line for lines in _format_params(details['param'], param_mapper) for line in lines],
         _format_return(details['return'], details['return-type']),
