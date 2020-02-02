@@ -35,7 +35,7 @@ interface preg
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0);
 
     /**
-     * {documentary:match_all}
+     * {@documentary:match_all}
      *
      * Performs a global regular expression match.
      *
@@ -64,7 +64,7 @@ interface preg
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0);
 
     /**
-     * {documentary:replace}
+     * @documentary replace
      *
      * Performs a regular expression search and replace.
      *
