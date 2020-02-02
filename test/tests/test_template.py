@@ -56,6 +56,20 @@ class TemplateTest(TestCase):
   */
   """)
 
+    def test_placeholder_mixed(self):
+        self.assertRendersTemplateForMethod(self.details(), """
+    /**
+     * {@documentary:method}
+     */
+     """)
+
+    def test_placeholder_tag(self):
+        self.assertRendersTemplateForMethod(self.details(), """
+    /**
+     * @documentary method
+     */
+     """)
+
     def assertRendersTemplateForMethod(self, details: dict, content: str):
         # given
         actual = self.render_document(details, content)
