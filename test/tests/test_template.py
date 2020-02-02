@@ -10,18 +10,7 @@ class TemplateTest(TestCase):
 
     def test(self):
         # given
-        details = {
-            'method': {
-                'name': 'method',
-                'definition': 'Summary',
-                'param': {},
-                'return': 'amount',
-                'return-type': 'int',
-                'throws': [],
-                'see': [],
-                'link': [],
-            }
-        }
+        details = self.details('Summary', 'amount', 'int')
 
         # then
         self.assertRendersTemplateForMethod(details, """
@@ -35,18 +24,7 @@ class TemplateTest(TestCase):
 
     def test_missing_definition(self):
         # given
-        details = {
-            'method': {
-                'name': 'method',
-                'definition': None,
-                'param': {},
-                'return': 'amount',
-                'return-type': 'int',
-                'throws': [],
-                'see': [],
-                'link': [],
-            }
-        }
+        details = self.details(None, 'amount', 'int')
 
         # then
         self.assertRendersTemplateForMethod(details, """
@@ -58,18 +36,7 @@ class TemplateTest(TestCase):
 
     def test_missing_return(self):
         # given
-        details = {
-            'method': {
-                'name': 'method',
-                'definition': 'Summary',
-                'param': {},
-                'return': None,
-                'return-type': None,
-                'throws': [],
-                'see': [],
-                'link': [],
-            }
-        }
+        details = self.details('Summary')
 
         # then
         self.assertRendersTemplateForMethod(details, """ /**
@@ -78,7 +45,7 @@ class TemplateTest(TestCase):
   * Summary.
   */""")
 
-    def test_ignores_undocumented_method(self):
+    def test_undocumented_method(self):
         # given
         details = {}
 
@@ -100,3 +67,17 @@ class TemplateTest(TestCase):
         documentary = 'resources/input/documentary'
         template = bootstrap(details, documentary, join(documentary, 'SafeRegex/preg.php', 'fragments'), True)
         return template(content)
+
+    def details(self, definition: str = None, _return=None, return_type=None) -> dict:
+        return {
+            'method': {
+                'name': 'method',
+                'definition': definition,
+                'param': {},
+                'return': _return,
+                'return-type': return_type,
+                'throws': [],
+                'see': [],
+                'link': [],
+            }
+        }
