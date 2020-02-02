@@ -184,9 +184,9 @@ Replaced
     def test_should_parse_placeholders(self):
         # given
         placeholders = {
-            'def': ("/** {documentary:foo} */", '{documentary:foo}'),
-            'mix': ("/** {@documentary:foo} */", '{@documentary:foo}'),
-            'tag': ("/** @documentary foo */", '@documentary foo'),
+            'def': ("/**{documentary:foo}*/", '{documentary:foo}'),
+            'mix': ("/**{@documentary:foo}*/", '{@documentary:foo}'),
+            'tag': ("/**@documentary foo*/", '@documentary foo'),
 
             'def,space': ('/** {documentary:foo} */', '{documentary:foo}'),
             'mix,space': ('/** {@documentary:foo} */', '{@documentary:foo}'),
