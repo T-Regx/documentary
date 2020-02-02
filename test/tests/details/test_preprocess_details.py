@@ -31,7 +31,6 @@ class DetailsTest(unittest.TestCase):
         # then
         self.assertEqual(second=result, first={
             'print': {
-                'name': 'print',
                 'definition': 'Replaced string',
                 'param': {'text': {'type': 'string', 'optional': False, 'ref': False, 'flags': None}},
                 'return': 'replaced string',

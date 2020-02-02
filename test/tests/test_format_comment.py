@@ -46,11 +46,11 @@ class FormatTest(unittest.TestCase):
     def test_multiple_return_types(self):
         # when
         result = self._print_method(
-            return_type=['int', 'int[]'],
             _return={
                 'int': {'when': 'if something', 'return': 'a number'},
                 'int[]': {'when': 'otherwise', 'return': 'numbers'}
-            })
+            },
+            return_type=['int', 'int[]'])
 
         # then
         self.assertEqual(result, """    /**
@@ -225,8 +225,7 @@ class FormatTest(unittest.TestCase):
      */""")
 
     @staticmethod
-    def _print_method(name='str_replace',
-                      definition='Just a summary',
+    def _print_method(definition='Just a summary',
                       param=None,
                       _return=None,
                       return_type=None,
@@ -238,7 +237,6 @@ class FormatTest(unittest.TestCase):
                       template_tag: Union[str, None] = None):
         return format_comment(
             details={
-                'name': name,
                 'definition': definition,
                 'param': param or {},
                 'return': _return or 'just a return value',

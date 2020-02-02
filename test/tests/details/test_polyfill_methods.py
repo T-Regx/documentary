@@ -10,7 +10,6 @@ class DetailsPolyfillMethodsTest(unittest.TestCase):
     def test_polyfill_method(self):
         # given
         given = {"foo": {
-            "name": 'foo',
             "definition": 'some definition',
             "param": {},
             "return": 'some return value',
@@ -26,7 +25,6 @@ class DetailsPolyfillMethodsTest(unittest.TestCase):
         # then
         self.assertEqual(second=result, first={
             'foo': {
-                "name": 'foo',
                 "definition": 'some definition',
                 "param": {},
                 "return": 'some return value',
@@ -47,7 +45,6 @@ class DetailsPolyfillMethodsTest(unittest.TestCase):
         # then
         self.assertEqual(second=result, first={
             'foo': {
-                "name": 'foo',
                 "definition": None,
                 "param": {},
                 "return": None,

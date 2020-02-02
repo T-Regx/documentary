@@ -85,7 +85,6 @@ class TemplateTest(TestCase):
     def details(self, definition: str = None, _return=None, return_type=None) -> dict:
         return {
             'method': {
-                'name': 'method',
                 'definition': definition,
                 'param': {},
                 'return': _return,

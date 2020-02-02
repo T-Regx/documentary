@@ -35,7 +35,6 @@ def build_details(summaries: dict = None, params: dict = None, links: dict = Non
 def polyfill_methods(details: dict) -> dict:
     for method, detail in details.items():
         details[method] = {
-            "name": method,
             "definition": detail.get('definition', None),
             "param": detail.get('param', {}),
             "return": detail.get('return', None),
