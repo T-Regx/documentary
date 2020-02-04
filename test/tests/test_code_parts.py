@@ -17,3 +17,7 @@ class CodePartsTest(unittest.TestCase):
 
         # then
         self.assertEqual(code, "Foo <i>code</i> Bar")
+
+    def test_pass_parameter_name(self):
+        # when
+        replace_template_strings("Foo `code` Bar", lambda x: self.assertEqual('code', x))
