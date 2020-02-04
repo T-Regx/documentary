@@ -48,5 +48,8 @@ class _Handle:
     def _clean_single(self, filename: str) -> str:
         return filename[len(self.test_dir):] if filename.startswith(self.test_dir) else filename
 
+    def strip(self, path: str) -> str:
+        return path.replace(self.test_dir, '')
+
     def __call__(self, *args, **kwargs) -> str:
         return self.join(*args)
