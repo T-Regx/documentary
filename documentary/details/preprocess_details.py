@@ -39,6 +39,7 @@ def polyfill_methods(details: dict) -> dict:
             "param": detail.get('param', {}),
             "return": detail.get('return', None),
             "return-type": detail.get('return-type', None),
+            'template': detail.get('template', {}),
             "throws": detail.get('throws', []),
             "see": detail.get('see', []),
             "link": detail.get('link', []),

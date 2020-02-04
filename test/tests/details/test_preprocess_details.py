@@ -35,6 +35,7 @@ class DetailsTest(unittest.TestCase):
                 'param': {'text': {'type': 'string', 'optional': False, 'ref': False, 'flags': None}},
                 'return': 'replaced string',
                 'return-type': 'string',
+                'template': {},
                 'see': [],
                 'link': ['https://google.com'],
                 'throws': []
