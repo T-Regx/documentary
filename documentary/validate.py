@@ -71,6 +71,7 @@ def declarations_schema() -> Schema:
                     )
                 },
             ),
+            Optional("template"): {str: Or(_valid_param_type, [_valid_param_type])},
             Optional("return-type"): Or(str, [str])
         },
     }))

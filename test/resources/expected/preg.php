@@ -81,6 +81,8 @@ interface preg
      *  <li>an array of new strings, all of them with replaced occurrences of <i>pattern</i> (unless the <i>pattern</i> wasn't matched, in this case the <i>subject</i> is returned unchanged) if <i>subject</i> is an <b>array</b></li>
      * </ul>
      *
+     * @template T of string|string[]
+     *
      * @throws MalformedPatternException
      * @throws RuntimeSafeRegexException
      * @throws SuspectedReturnSafeRegexException
@@ -117,6 +119,8 @@ interface preg
      *  <li>an array of new strings, all of them with replaced occurrences of <i>pattern</i> (unless the <i>pattern</i> wasn't matched, in this case the <i>subject</i> is returned unchanged) if <i>subject</i> is an <b>array</b></li>
      * </ul>
      *
+     * @template T of string|string[]
+     *
      * @throws MalformedPatternException
      * @throws RuntimeSafeRegexException
      * @throws SuspectedReturnSafeRegexException
@@ -151,6 +155,8 @@ interface preg
      *  <li>unmodified <i>subject</i> if it matches the <b>pattern</b>, or <b>null</b> if it doesn't if the <i>subject</i> parameter is a <b>string</b></li>
      *  <li>an array containing only elements matched by the <b>pattern</b> if the <i>subject</i> parameter is an <b>array</b></li>
      * </ul>
+     *
+     * @template T of string|string[]
      *
      * @throws MalformedPatternException
      * @throws RuntimeSafeRegexException
@@ -188,6 +194,8 @@ interface preg
      *  <li>unmodified <i>subject</i> if it matches the <i>pattern</i>, or <b>null</b> if it doesn't if the <i>subject</i> parameter is a <b>string</b></li>
      *  <li>an array containing only elements matched by the <i>pattern</i> if the <i>subject</i> parameter is an <b>array</b></li>
      * </ul>
+     *
+     * @template T of string|string[]
      *
      * @throws MalformedPatternException
      * @throws RuntimeSafeRegexException

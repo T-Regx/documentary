@@ -27,6 +27,9 @@
       "limit": ["int", "optional"],
       "count": ["int", "optional", "&ref"]
     },
+    "template": {
+      "T": ["string", "string[]"]
+    },
     "return-type": ["string", "string[]"]
   },
   "replace_callback": {
@@ -36,6 +39,9 @@
       "subject": ["string", "string[]"],
       "limit": ["int", "optional"],
       "count": ["int", "optional", "&ref"]
+    },
+    "template": {
+      "T": ["string", "string[]"]
     },
     "return-type": ["string", "string[]"]
   },
@@ -52,6 +58,9 @@
       "limit": ["int", "optional"],
       "count": ["int", "optional", "&ref"]
     },
+    "template": {
+      "T": ["string", "string[]"]
+    },
     "return-type": ["string", "string[]"]
   },
   "filter": {
@@ -61,6 +70,9 @@
       "subject": ["string", "string[]"],
       "limit": ["int", "optional"],
       "count": ["int", "optional", "&ref"]
+    },
+    "template": {
+      "T": ["string", "string[]"]
     },
     "return-type": ["string", "string[]"]
   },
