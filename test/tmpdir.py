@@ -35,12 +35,11 @@ class _Handle:
             filenames = [filenames]
         os.makedirs(self.join(*filenames))
 
-    def join(self, *filenames: str):
+    def join(self, *filenames: str) -> str:
         return os.path.join(self.test_dir, *filenames)
 
     def open(self, *filenames: str) -> str:
-        join = self.join(*filenames)
-        with open(join, 'r') as file:
+        with open(self.join(*filenames), 'r') as file:
             return file.read()
 
     def clean(self, *filenames: str) -> list:
@@ -48,3 +47,6 @@ class _Handle:
 
     def _clean_single(self, filename: str) -> str:
         return filename[len(self.test_dir):] if filename.startswith(self.test_dir) else filename
+
+    def __call__(self, *args, **kwargs) -> str:
+        return self.join(*args)
