@@ -27,6 +27,7 @@ def render_comment_as_parts(details: dict,
         [__norm(details['definition'])] if details['definition'] is not None else definition_fallback().splitlines(),
         [line for lines in _format_params(details['param'], param_mapper) for line in lines],
         _format_return(details['return'], details['return-type']),
+        _format_template(details['template']),
         ['@throws ' + exception for exception in (details['throws'])],
         ['@see ' + format_method(see) for see in details['see']],
         ['@link ' + link for link in details['link']],
@@ -81,12 +82,16 @@ def _format_return(values, types):
         raise Exception("Mismatched declaration and definition return types")
     v = __format_return_value(values)
     return [
-        '@return ' + __format_return_type(types) + ' ' + v.pop(0),
+        '@return ' + __format_types(types) + ' ' + v.pop(0),
         *v
     ]
 
 
-def __format_return_type(return_type) -> str:
+def _format_template(templates: dict) -> list:
+    return [f"@template {key} of {__format_types(types)}" for key, types in templates.items()]
+
+
+def __format_types(return_type) -> str:
     if type(return_type) is list:
         return "|".join(return_type)
     if type(return_type) is str:

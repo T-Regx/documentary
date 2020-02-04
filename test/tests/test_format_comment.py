@@ -16,7 +16,7 @@ class FormatTest(unittest.TestCase):
      * @return string just a return value
      */""")
 
-    def test_include_template(self):
+    def test_template_tag(self):
         # when
         result = self._print_method(template_tag='Lorem Ipsum')
 
@@ -61,6 +61,23 @@ class FormatTest(unittest.TestCase):
      *  <li>a number if something</li>
      *  <li>numbers otherwise</li>
      * </ul>
+     */""")
+
+    def test_template(self):
+        # when
+        result = self._print_method(template={
+            'T': ['string', 'string[]'],
+            'S': ['int', 'int[]'],
+        })
+
+        # then
+        self.assertEqual(result, """    /**
+     * Just a summary.
+     *
+     * @return string just a return value
+     *
+     * @template T of string|string[]
+     * @template S of int|int[]
      */""")
 
     def test_code_parts(self):
@@ -229,6 +246,7 @@ class FormatTest(unittest.TestCase):
                       param=None,
                       _return=None,
                       return_type=None,
+                      template=None,
                       see=None,
                       links=None,
                       param_mapper=lambda x: x,
@@ -241,6 +259,7 @@ class FormatTest(unittest.TestCase):
                 'param': param or {},
                 'return': _return or 'just a return value',
                 'return-type': return_type or 'string',
+                'template': template or {},
                 'see': see or [],
                 'link': links or [],
                 'throws': throws or []

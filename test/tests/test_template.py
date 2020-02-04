@@ -88,6 +88,7 @@ class TemplateTest(TestCase):
                 'definition': definition,
                 'param': {},
                 'return': _return,
+                'template': {},
                 'return-type': return_type,
                 'throws': [],
                 'see': [],
