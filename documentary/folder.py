@@ -40,7 +40,7 @@ def strip(string: str, prefix: str) -> str:
     son = Path(string)
     if parent in son.parents:
         return str(son.relative_to(parent))
-    return str(son)
+    raise Exception()
 
 
 class TemplatesDiscoveryException(Exception):
