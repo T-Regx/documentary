@@ -17,11 +17,7 @@ def relative_paths(filenames: list, root: str) -> list:
 
 
 def template_files(folder: str, root: str, documentary: str) -> list:
-    result = []
-    for filename in folders(folder, documentary):
-        if path.isfile(path.join(root, strip(filename, documentary))):
-            result.append(filename)
-    return result
+    return [filename for filename in folders(folder, documentary) if path.isfile(path.join(root, strip(filename, documentary)))]
 
 
 def folders(folder: str, documentary: str) -> list:

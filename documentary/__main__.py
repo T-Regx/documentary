@@ -15,12 +15,12 @@ def main():
         print('To generate a documentation, navigate to a directory with "documentary" folder')
         return
 
-    if not path.exists(documentation_path):
-        print('Directory "{}" is missing in documentary folder'.format(path.normpath(args.template)))
+    if not path.exists(template_path):
+        print(f'Tried to documentation file "{template_path}", but it doesn\'t exist')
         return
 
-    if not path.exists(template_path):
-        print('Tried to documentation file "{}", but it doesn\'t exist'.format(template_path))
+    if not path.exists(documentation_path):
+        print(f'Directory "{path.normpath(args.template)}" is missing in documentary folder')
         return
 
     document(documentary_path, documentation_path, template_path, output_path=template_path)
