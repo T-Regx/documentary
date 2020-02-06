@@ -8,12 +8,8 @@ def discover_templates(folder: str, root: str, documentary: str) -> list:
     if path.isfile(absolute):
         return [folder]
     if path.isdir(absolute):
-        return relative_paths(template_files(folder, root, documentary), documentary)
+        return [strip(f, documentary) for f in template_files(folder, root, documentary)]
     raise FileNotFoundError(f"File/folder '{folder}' does not exist")
-
-
-def relative_paths(filenames: list, root: str) -> list:
-    return [strip(f, root) for f in filenames]
 
 
 def template_files(folder: str, root: str, documentary: str) -> list:
