@@ -53,7 +53,7 @@
         "return": "substrings of `subject` split along boundaries matched by `pattern`"
       },
       "array[]": {
-        "when": "if flag `PREG_SPLIT_OFFSET_CAPTURE` is used",
+        "when": "if flag `PREG_SPLIT_OFFSET_CAPTURE` is used (e.g. `['Foo', 'Bar']`)",
         "return": "substrings of `subject` and their offsets"
       }
     }

@@ -232,10 +232,10 @@ interface preg
      * </p>
      * @param int $flags [optional]
      *
-     * @return string[]|array[] returns <b>string[]</b> by default, <b>array[]</b> if flag <b>PREG_SPLIT_OFFSET_CAPTURE</b> is used
+     * @return string[]|array[] returns <b>string[]</b> by default, <b>array[]</b> if flag <b>PREG_SPLIT_OFFSET_CAPTURE</b> is used (e.g. <b>['Foo', 'Bar']</b>)
      * <ul>
      *  <li>substrings of <i>subject</i> split along boundaries matched by <i>pattern</i> by default</li>
-     *  <li>substrings of <i>subject</i> and their offsets if flag <b>PREG_SPLIT_OFFSET_CAPTURE</b> is used</li>
+     *  <li>substrings of <i>subject</i> and their offsets if flag <b>PREG_SPLIT_OFFSET_CAPTURE</b> is used (e.g. <b>['Foo', 'Bar']</b>)</li>
      * </ul>
      *
      * @throws MalformedPatternException

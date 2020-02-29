@@ -1,9 +1,10 @@
-import unittest
+from unittest import TestCase
+from unittest.mock import MagicMock
 
 from documentary.markup import replace_template_strings
 
 
-class CodePartsTest(unittest.TestCase):
+class CodePartsTest(TestCase):
     def test_replace_parts_b(self):
         # when
         code = replace_template_strings("Foo `code` Bar", lambda x: 'b')
@@ -18,6 +19,12 @@ class CodePartsTest(unittest.TestCase):
         # then
         self.assertEqual(code, "Foo <i>code</i> Bar")
 
-    def test_pass_parameter_name(self):
+    def test_array(self):
+        # given
+        mock = MagicMock(spec=lambda x: '')
+
         # when
-        replace_template_strings("Foo `code` Bar", lambda x: self.assertEqual('code', x))
+        replace_template_strings("Foo `['Foo', \"Bar\"]` Bar", mock)
+
+        # then
+        mock.assert_called_with("['Foo', \"Bar\"]")
