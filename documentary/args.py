@@ -4,14 +4,15 @@ import os
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("template",
-                        help="input file which will have its documentation generated",
-                        metavar="FILE",
-                        type=lambda x: __try_get_path(parser, x))
+
+    parser.add_argument("root",
+                        nargs='?',
+                        help="path to a root folder of a project (must contain 'documentary' folder and templates)",
+                        default=os.getcwd(),
+                        metavar="FILE")
+
+    parser.add_argument("--template",
+                        help="a subset of templates which will have its documentation generated",
+                        metavar="FILE")
+
     return parser.parse_args()
-
-
-def __try_get_path(p: argparse.ArgumentParser, file):
-    if os.path.exists(file):
-        return file
-    p.error(f"The file '{file}' does not exist!")

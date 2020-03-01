@@ -14,7 +14,7 @@ class PathsTest(TestCase):
             tmp.store(['documentary', 'src'], '')
 
             # when
-            doc, root, template, output = resolve_paths(tmp(), args(template='src'))
+            doc, root, template, output = resolve_paths(args(root=tmp(), template='src'))
 
             # then
             self.assertEqual(tmp('documentary'), doc, msg='Failed to assert that documentary path is returned')
@@ -27,10 +27,10 @@ class PathsTest(TestCase):
             # given
             with self.assertRaises(Exception) as error:
                 # when
-                resolve_paths(tmp(), args(template='src'))
+                resolve_paths(args(root=tmp(), template='src'))
 
             # then
-            self.assertEqual(str(error.exception), 'To generate a documentation, navigate to a directory with "documentary" folder')
+            self.assertEqual(tmp.strip(str(error.exception)), 'To generate documentation, navigate to a directory with "documentary" folder')
 
     def test_raise_for_missing_template(self):
         with directory() as tmp:
@@ -40,7 +40,7 @@ class PathsTest(TestCase):
             # when
             with self.assertRaises(Exception) as error:
                 # when
-                resolve_paths(tmp(), args(template='src'))
+                resolve_paths(args(root=tmp(), template='src'))
 
             # then
             self.assertEqual(r"""Tried to documentation file "\src", but it doesn't exist""", tmp.strip((str(error.exception))))
@@ -54,7 +54,7 @@ class PathsTest(TestCase):
             # when
             with self.assertRaises(Exception) as error:
                 # when
-                resolve_paths(tmp(), args(template='src'))
+                resolve_paths(args(root=tmp(), template='src'))
 
             # then
             self.assertEqual('Directory "src" is missing in documentary folder', str(error.exception))
