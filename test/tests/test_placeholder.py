@@ -1,6 +1,6 @@
 import unittest
 from typing import Union
-from unittest.mock import Mock
+from unittest.mock import Mock, MagicMock, ANY
 
 from documentary.placeholder import populate
 
@@ -140,6 +140,38 @@ Replaced
         # then
         self.assertEqual(second=result, first="Replaced")
 
+    def test_replaces_class(self):
+        # given
+        string = """/**
+         * {documentary::class}
+         */"""
+
+        # when
+        result = populate(string, lambda *_: "Replaced")
+
+        # then
+        self.assertEqual(second=result, first="Replaced")
+
+    def test_replaces_calls_with_class(self):
+        # given
+        string = """/**
+         * {documentary::class}
+         */"""
+        mock = MagicMock(return_value="")
+
+        # when
+        populate(string, mock)
+
+        # then
+        mock.assert_called_with(":class", ANY, ANY)
+
+    def test_ignore_double_colon_method(self):
+        self.assertIgnoresPlaceholder("""
+        /**
+         * {documentary::work}
+         */
+        """)
+
     def test_replaces_non_greedy(self):
         # given
         string = """
@@ -187,6 +219,10 @@ Replaced
             'def': ("/**{documentary:foo}*/", '{documentary:foo}'),
             'mix': ("/**{@documentary:foo}*/", '{@documentary:foo}'),
             'tag': ("/**@documentary foo*/", '@documentary foo'),
+
+            'def,class': ("/**{documentary::class}*/", '{documentary::class}'),
+            'mix,class': ("/**{@documentary::class}*/", '{@documentary::class}'),
+            'tag,class': ("/**@documentary :class*/", '@documentary :class'),
 
             'def,space': ('/** {documentary:foo} */', '{documentary:foo}'),
             'mix,space': ('/** {@documentary:foo} */', '{@documentary:foo}'),
