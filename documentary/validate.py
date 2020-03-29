@@ -87,6 +87,9 @@ def __valid_flag(flag: str) -> bool:
 
 def decorations_schema() -> Schema:
     return Schema(Or({}, {
+        Optional("class"): {
+            Optional("snippets"): [str]
+        },
         Optional("methods"): Or({}, {
             str: Or({}, {
                 Optional("see"): [str],

@@ -13,6 +13,9 @@ class DefaultsDecorationsTest(TestCase):
 
     # First level down
 
+    def test_empty_class(self):
+        decorations({"class": {}})
+
     def test_empty_methods(self):
         decorations({"methods": {}})
 
@@ -30,6 +33,9 @@ class DefaultsDecorationsTest(TestCase):
         })
 
     # Second level down
+
+    def test_empty_class_snippets(self):
+        decorations({"class": {"snippets": []}})
 
     def test_empty_method(self):
         decorations({"methods": {"match": {}}})
@@ -83,6 +89,9 @@ class DefaultsDecorationsTest(TestCase):
 
     def test_full(self):
         decorations({
+            "class": {
+                "snippets": ["groupable", "match"]
+            },
             "methods": {
                 "match": {
                     "see": ["match_all"],
