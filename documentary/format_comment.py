@@ -17,6 +17,15 @@ def format_comment(details: dict,
         tag=lambda x: 'i' if x in details['param'] else 'b')
 
 
+def format_sections_comment(sections: [], indent: int) -> str:
+    return replace_template_strings(
+        string=__comment_as_lines(__join_sections(sections), indent),
+        tag=lambda x: 'b')
+    # Currently, we don't have access to the parameters of all methods,
+    # so we can't distinguish which markup is a parameter and which isn't.
+    # We're changing `each` to <b>mapped</b>, by default.
+
+
 def render_comment_as_parts(details: dict,
                             format_method: callable,
                             template_tag: Union[str, None],
@@ -28,7 +37,7 @@ def render_comment_as_parts(details: dict,
         [line for lines in _format_params(details['param'], param_mapper) for line in lines],
         _format_return(details['return'], details['return-type']),
         [f"@template {key} of {__format_types(types)}" for key, types in details['template'].items()],
-        ['@throws ' + exception for exception in (details['throws'])],
+        ['@throws ' + exception for exception in details['throws']],
         ['@see ' + format_method(see) for see in details['see']],
         ['@link ' + link for link in details['link']],
     ]

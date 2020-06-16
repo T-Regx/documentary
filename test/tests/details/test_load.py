@@ -14,7 +14,7 @@ class LoadTest(TestCase):
             tmp.store('definitions.json', dumps({}))
 
             # when
-            details = load_details(
+            details, _ = load_details(
                 declaration=tmp.join('declaration.json'),
                 decorations=tmp.join('decorations.json'),
                 definitions=tmp.join('definitions.json'),
@@ -26,7 +26,7 @@ class LoadTest(TestCase):
     def test_missing_files(self):
         with directory() as tmp:
             # when
-            details = load_details(
+            details, _ = load_details(
                 declaration=tmp.join('missing.json'),
                 decorations=tmp.join('missing.json'),
                 definitions=tmp.join('missing.json'),

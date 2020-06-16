@@ -79,7 +79,7 @@ class TemplateTest(TestCase):
 
     def render_document(self, details: dict, content: str) -> str:
         documentary = 'resources/input/documentary'
-        template = bootstrap(details, documentary, join(documentary, 'SafeRegex/preg.php', 'fragments'), True)
+        template = bootstrap(details, {}, documentary, join(documentary, 'SafeRegex/preg.php', 'fragments'), True)
         return template(content)
 
     def details(self, definition: str = None, _return=None, return_type=None) -> dict:

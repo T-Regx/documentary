@@ -1,17 +1,17 @@
 import json
 import re
 from collections import OrderedDict
+from typing import Tuple
 
 from documentary import validate
 from documentary.merge_utils import merge_dictionaries
 from documentary.utils import first
 
 
-def load_details(definitions: str, declaration: str, decorations: str) -> dict:
-    return build_details(
-        _load_file_or_default(definitions),
-        _load_file_or_default(declaration),
-        _load_file_or_default(decorations))
+def load_details(definitions: str, declaration: str, decorations: str) -> Tuple[dict, dict]:
+    decoration = _load_file_or_default(decorations)
+    details = build_details(_load_file_or_default(definitions), _load_file_or_default(declaration), decoration)
+    return details, decoration.get('class', {}) if decoration else {}
 
 
 def _load_file_or_default(filename: str, default=None) -> dict:

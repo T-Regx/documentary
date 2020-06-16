@@ -15,11 +15,11 @@ def document_many(documentary_path: str, root_path: str, templates_path: str, ou
 
 
 def document(documentary_path: str, documentation_path: str, template_path: str, output_path: str) -> None:
-    details = load_details(
+    details, class_details = load_details(
         path.join(documentation_path, 'definition.json'),
         path.join(documentation_path, 'declaration.json'),
         path.join(documentation_path, 'decoration.json'))
 
-    documented = map_file(template_path, output_path, bootstrap(details, documentary_path, path.join(documentation_path, 'fragments'), True))
+    documented = map_file(template_path, output_path, bootstrap(details, class_details, documentary_path, path.join(documentation_path, 'fragments'), True))
 
     print(('Documented file "{}"' if documented else 'File "{}" remains unchanged').format(template_path))
