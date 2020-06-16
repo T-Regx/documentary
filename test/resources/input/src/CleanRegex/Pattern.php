@@ -16,6 +16,9 @@ use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 use TRegx\SafeRegex\preg;
 
+/**
+ * {@documentary::class}
+ */
 class Pattern
 {
     /** @var InternalPattern */

@@ -16,6 +16,29 @@ use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 use TRegx\SafeRegex\preg;
 
+/**
+ * {@documentary::class}
+ *
+ * <p>
+ *     Interface representing a match (a result of <b>preg_match()</b> or <b>preg_match_all()</b> method),
+ *     that can be used to confidently assert a capturing group existence.
+ * </p>
+ * <p>With result of:</p>
+ * <ul>
+ *     <li>
+ *         <b>preg_match()</b> (<b>IRawMatch</b>) - it's not possible (because a group can be either missing, or trimmed
+ *         by <b>preg_match()</b>). That's why <b>preg_match()</b> is used only for <b>match()->first()</b> without a callback.
+ *     </li>
+ * </ul>
+ * <p>With results of:</p>
+ * <ul>
+ *     <li><b>preg_match(PREG_UNMATCHED_AS_NULL)</b> - <b>IRawMatchNullable</b></li>
+ *     <li><b>preg_match(PREG_OFFSET_CAPTURE)</b> - <b>IRawMatchOffset</b></li>
+ *     <li><b>preg_match_all()</b> - <b>IRawMatches</b></li>
+ * </ul>
+ * <p>...it is possible to assert a capturing group existence - a lack of such group in the results necessarily means
+ *     that the group is missing.</p>
+ */
 class Pattern
 {
     /** @var InternalPattern */
