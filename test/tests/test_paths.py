@@ -43,7 +43,7 @@ class PathsTest(TestCase):
                 resolve_paths(args(root=tmp(), template='src'))
 
             # then
-            self.assertEqual(r"""Tried to documentation file "\src", but it doesn't exist""", tmp.strip((str(error.exception))))
+            self.assertEqual(r"""Tried to documentation file "src", but it doesn't exist""", tmp.strip((str(error.exception))))
 
     def test_raise_for_missing_documentation(self):
         with directory() as tmp:
