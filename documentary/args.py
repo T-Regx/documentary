@@ -13,6 +13,8 @@ def parse_args():
 
     parser.add_argument("--template",
                         help="a subset of templates which will have its documentation generated",
+                        required=True,
                         metavar="FILE")
 
     return parser.parse_args()
+

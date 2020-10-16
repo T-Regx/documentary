@@ -22,7 +22,7 @@ class EndToEndTest(TestCase):
                 with open(resource('expected/preg.php'), 'r') as expected:
                     self.assertEqual(expected.read(), tmp.open('preg.php'))
 
-                self.assertEqual([f'Documented file "{resource("input/src/SafeRegex/preg.php")}"'], lines())
+                self.assertEqual([f'File "{resource("input/src/SafeRegex/preg.php")}" documented'], lines())
 
     def test_many(self):
         with stubbed_output() as lines:
@@ -42,6 +42,6 @@ class EndToEndTest(TestCase):
                     self.assertEqual(expected.read(), tmp.open('output/src/CleanRegex/Pattern.php'))
 
                 self.assertPathsMatch(actual=lines(), expected=[
-                    f'Documented file "{resource("input")}/src/SafeRegex/preg.php"',
-                    f'Documented file "{resource("input")}/src/CleanRegex/Pattern.php"',
+                    f'File "{resource("input")}/src/SafeRegex/preg.php" documented',
+                    f'File "{resource("input")}/src/CleanRegex/Pattern.php" documented',
                 ])

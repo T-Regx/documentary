@@ -22,4 +22,4 @@ def document(documentary_path: str, documentation_path: str, template_path: str,
 
     documented = map_file(template_path, output_path, bootstrap(details, class_details, documentary_path, path.join(documentation_path, 'fragments'), True))
 
-    print(('Documented file "{}"' if documented else 'File "{}" remains unchanged').format(template_path))
+    print(('File "{}" documented' if documented else 'File "{}" remains unchanged').format(template_path))
