@@ -17,7 +17,7 @@ def load_details(definitions: str, declaration: str, decorations: str) -> Tuple[
 def _load_file_or_default(filename: str, default=None) -> dict:
     try:
         with open(filename) as file:
-            return json.load(file, object_pairs_hook=OrderedDict)
+            return json.load(file, object_pairs_hook=lambda pair: OrderedDict(pair))
     except FileNotFoundError:
         return default
 
